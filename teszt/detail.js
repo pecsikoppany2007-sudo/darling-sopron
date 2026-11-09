@@ -1,0 +1,14 @@
+const {chromium}=require('playwright');
+(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:1440,height:900}});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.addInitScript(()=>{localStorage.setItem('dl-lang','hu');sessionStorage.setItem('dl-intro','1')});
+await p.goto('http://localhost:8811/');await p.waitForTimeout(1800);
+const to=async y=>{await p.evaluate(y=>window.__lenis.scrollTo(y,{immediate:true}),y);await p.waitForTimeout(1600)};
+const top=async id=>p.evaluate(id=>document.getElementById(id).getBoundingClientRect().top+scrollY,id);
+let y=await top('rolunk');await to(y+700);await p.screenshot({path:'/tmp/claude-0/d1.jpg',type:'jpeg',quality:60});
+y=await top('barRun');const h=await p.evaluate(()=>document.getElementById('barRun').offsetHeight);
+await to(y+ (h-900)*.35);await p.screenshot({path:'/tmp/claude-0/d2.jpg',type:'jpeg',quality:60});
+await to(y+h-900+300);await p.screenshot({path:'/tmp/claude-0/d3.jpg',type:'jpeg',quality:60});
+y=await top('etlap');await to(y+100);await p.click('#tab5');await p.waitForTimeout(1500);await p.screenshot({path:'/tmp/claude-0/d4.jpg',type:'jpeg',quality:60});
+y=await top('foglalas');await to(y);await p.click('#dialGo');await p.waitForTimeout(1200);await p.screenshot({path:'/tmp/claude-0/d5.jpg',type:'jpeg',quality:60});
+await p.waitForTimeout(6000);console.log(await p.textContent('#dialNum'));
+console.log(errs.join('\n')||'ok');await b.close()})();
