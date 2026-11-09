@@ -1,4 +1,4 @@
-/* Darling, I’ll call you later… – Sopron, Várkerület 57. Bemutató oldal, v2 */
+/* Darling, I’ll call you later… – Sopron, Várkerület 57. Bemutató oldal, v3 */
 @font-face{font-family:'Imbue';font-style:normal;font-display:swap;font-weight:100 900;src:url(../fonts/imbue-latin-ext-opsz-normal.woff2) format('woff2-variations');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 @font-face{font-family:'Imbue';font-style:normal;font-display:swap;font-weight:100 900;src:url(../fonts/imbue-latin-opsz-normal.woff2) format('woff2-variations');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'Instrument';font-style:italic;font-display:swap;font-weight:400;src:url(../fonts/instrument-serif-latin-ext-400-italic.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
@@ -132,8 +132,8 @@ html.no-intro .intro{display:none}
 .pend::before{content:"";position:absolute;left:50%;top:0;bottom:16px;width:1px;background:linear-gradient(rgba(216,170,60,0),rgba(216,170,60,.55))}
 .pend svg{position:absolute;left:0;bottom:0;width:50px;height:25px;overflow:visible}
 .pend__s{fill:#0d1511;stroke:var(--gold2);stroke-width:1}
-.pend__b{position:absolute;left:50%;bottom:-5px;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;background:#fff0c8;box-shadow:0 0 14px 5px rgba(var(--warm),.55);opacity:0}
-.pend__c{position:absolute;left:50%;top:100%;width:min(78vw,640px);height:min(60vh,440px);margin-left:max(-39vw,-320px);background:radial-gradient(48% 62% at 50% 0,rgba(var(--warm),.22),rgba(var(--warm),.06) 52%,rgba(var(--warm),0) 100%);opacity:0;z-index:-1}
+.pend__b{position:absolute;left:50%;bottom:-5px;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;background:#fff0c8;box-shadow:0 0 14px 5px rgba(var(--warm),.55),0 0 60px 26px rgba(var(--warm),.12);opacity:0}
+.pend__c{position:absolute;left:50%;top:calc(100% - 8px);width:min(96vw,780px);height:min(66vh,540px);margin-left:max(-48vw,-390px);background:url(../img/deco-lit.png?v=3) 0 0/120px 60px,conic-gradient(from 148deg at 50% 0,rgba(var(--warm),0) 0deg,rgba(var(--warm),.07) 14deg,rgba(var(--warm),.15) 28deg,rgba(var(--warm),.17) 32deg,rgba(var(--warm),.15) 36deg,rgba(var(--warm),.07) 50deg,rgba(var(--warm),0) 64deg,rgba(var(--warm),0) 360deg);-webkit-mask-image:radial-gradient(ellipse 36% 100% at 50% 0,#000 0,rgba(0,0,0,.7) 38%,rgba(0,0,0,.28) 68%,rgba(0,0,0,0) 100%);mask-image:radial-gradient(ellipse 36% 100% at 50% 0,#000 0,rgba(0,0,0,.7) 38%,rgba(0,0,0,.28) 68%,rgba(0,0,0,0) 100%);opacity:0;z-index:-1}
 .pend.is-lit .pend__b,.pend.is-lit .pend__c{animation:lampOn 1.3s linear both}
 .pend.is-lit .pend__c{animation-delay:.05s}
 @keyframes lampOn{0%{opacity:0}7%{opacity:.85}11%{opacity:.08}19%{opacity:.7}23%{opacity:.15}36%{opacity:1}100%{opacity:1}}
@@ -180,7 +180,12 @@ html.no-anim .bl .ln__i{transform:none}
 .lede{font:300 clamp(1.45rem,2.45vw,2.45rem)/1.24 var(--serif);letter-spacing:.002em;max-width:25em;text-wrap:pretty}
 .lede .wd{opacity:.16;transition:opacity .6s,text-shadow .6s}
 .lede .wd.on{opacity:1}
-.about__pics{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(14px,1.6vw,26px);margin-top:clamp(60px,10vh,120px);align-items:start}
+.about__pics{display:grid;grid-template-columns:1.5fr .78fr 1.5fr;gap:clamp(14px,1.8vw,30px);margin-top:clamp(60px,10vh,120px);align-items:end}
+.about__pics .ph__in{height:clamp(220px,25vw,470px)}
+.about__pics .ph--c .ph__in{height:clamp(270px,31vw,580px)}
+.about__pics .ph.rv .ph__in{transition-delay:calc(var(--i,0)*.16s)}
+.about__pics .ph.rv.is-in .ph__in::after{animation-delay:calc(.35s + var(--i,0)*.22s)}
+.about__pics .ph__in::before{content:"";position:absolute;inset:0;z-index:2;box-shadow:inset 0 0 0 1px rgba(216,170,60,.22);pointer-events:none}
 .ph{position:relative;margin:0}
 .ph__in{position:relative;overflow:hidden;clip-path:inset(0 0 0 0)}
 .ph__in img{width:100%;height:100%;object-fit:cover;transform:scale(1.1);will-change:transform}
@@ -194,10 +199,8 @@ html.no-anim .bl .ln__i{transform:none}
 @keyframes lightUp{0%{opacity:.8}10%{opacity:.25}14%{opacity:.7}24%{opacity:.18}28%{opacity:.5}50%{opacity:0}100%{opacity:0}}
 .ph.rv.is-in .ph__in img{transform:scale(1.04)}
 html.desk .ph.rv.is-in .ph__in img{transition:none}
-.ph figcaption{margin-top:12px;font:300 .64rem/1.5 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
-.ph--a{grid-column:1/8}.ph--a .ph__in{aspect-ratio:3/2}
-.ph--b{grid-column:8/13;margin-top:18vh}.ph--b .ph__in{aspect-ratio:3/2}
-.ph--c{grid-column:5/8;margin-top:-12vh;z-index:2;border:10px solid var(--ink)}.ph--c .ph__in{aspect-ratio:3/4}
+.ph figcaption{display:flex;gap:12px;align-items:baseline;margin-top:14px;font:300 .64rem/1.5 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.ph figcaption b{font-weight:300;color:var(--gold)}
 
 /* étlap: sötét terem, lámpafény, a fotók írisszel nyílnak, mint egy régi filmkamerán */
 .menu{background:radial-gradient(60% 50% at 82% 30%,rgba(var(--warm),.06),rgba(var(--warm),0) 70%),var(--green)}
@@ -223,7 +226,7 @@ html.desk .ph.rv.is-in .ph__in img{transition:none}
 @keyframes dIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .menu__pic{position:sticky;top:110px}
 .menu__pic::after{content:"";position:absolute;inset:-12px;border:1px solid rgba(216,170,60,.28);pointer-events:none}
-.menu__frame{position:relative;aspect-ratio:4/5;overflow:hidden;background:#0a1712}
+.menu__frame{position:relative;aspect-ratio:1/1;overflow:hidden;background:#0a1712}
 .menu__frame img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;clip-path:circle(0% at 50% 50%);transform:scale(1.14);transition:clip-path 1.2s var(--ease),transform 1.8s var(--ease)}
 .menu__frame img.is-on{clip-path:circle(75% at 50% 50%);transform:scale(1);z-index:2}
 .menu__frame img.is-logo{object-fit:contain;padding:16% 18%;background:#0a1712}
@@ -359,8 +362,10 @@ html.cur-on .cur{display:block}
 .cur.is-hole .cur__d{transform:scale(2.2)}
 html.cur-on,html.cur-on a,html.cur-on button,html.cur-on .dial__hole{cursor:none}
 
-/* filmszemcse */
-html.grain body::after{content:"";position:fixed;inset:-50%;z-index:140;pointer-events:none;background:url(../img/grain.png?v=1);opacity:.06}
+/* art deco tapéta: alig látszik, a lámpák fénykúpjában rajzolódik ki */
+.sec,.ft__in{isolation:isolate}
+.sec::before,.ft__in::before{content:"";position:absolute;inset:0;z-index:-1;background:url(../img/deco-faint.png?v=3) 0 0/120px 60px;pointer-events:none}
+.ft__in{position:relative}
 
 /* ---------------- reszponzív */
 @media (max-width:1180px){
@@ -378,8 +383,10 @@ html.grain body::after{content:"";position:fixed;inset:-50%;z-index:140;pointer-
   .hd__bar{padding-top:12px;padding-bottom:12px}
   .hero__today{display:none}
   .go{height:52px;padding-left:22px;gap:14px}
-  .about__pics{grid-template-columns:repeat(6,1fr)}
-  .ph--a{grid-column:1/-1}.ph--b{grid-column:1/5;margin-top:0}.ph--c{grid-column:4/7;margin-top:-18vw;border-width:6px}
+  .about__pics{grid-template-columns:1fr 1fr;row-gap:28px}
+  .about__pics .ph--a{grid-column:1/-1}
+  .about__pics .ph--a .ph__in{height:58vw}
+  .about__pics .ph--c .ph__in,.about__pics .ph--b .ph__in{height:56vw}
   .menu__grid{grid-template-columns:1fr;gap:26px}
   .menu__tabs{position:relative;top:0;flex-direction:row;overflow-x:auto;border-top:0;gap:8px;margin:0 calc(var(--pad)*-1);padding:2px var(--pad);scrollbar-width:none}
   .menu__tabs::-webkit-scrollbar{display:none}
@@ -389,7 +396,7 @@ html.grain body::after{content:"";position:fixed;inset:-50%;z-index:140;pointer-
   .menu__pic{position:relative;top:0;order:1}
   .menu__pic::after{inset:-8px}
   .menu__list{order:2;min-height:0}
-  .menu__frame{aspect-ratio:16/10}
+  .menu__frame{aspect-ratio:4/3}
   .bar__pin{grid-template-columns:1fr}
   .bar__deck{display:flex;gap:12px;aspect-ratio:auto;max-width:none;max-height:none;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(var(--pad)*-1);padding:0 var(--pad);scrollbar-width:none;order:2}
   .bar__deck::-webkit-scrollbar{display:none}

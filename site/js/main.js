@@ -1,4 +1,4 @@
-/* Darling, I’ll call you later… – bemutató oldal, v2.
+/* Darling, I’ll call you later… – bemutató oldal, v3.
    GSAP + ScrollTrigger. Egérrel Lenis (lassabb, puhább görgetés), érintőn natív görgetés: ott semmi nem követi az ujjat, csak egyszeri, időzített mozgások vannak. */
 (function () {
   'use strict';
@@ -20,7 +20,6 @@
       return !/swiftshader|llvmpipe|softpipe|software|basic render/i.test(r);
     } catch (e) { return false; }
   })();
-  if (hwGpu) html.classList.add('grain');
   if (!canHover) html.classList.add('touch');
   var desk = canHover && !reduced && innerWidth >= 1024;
   if (desk) html.classList.add('desk');
@@ -37,7 +36,7 @@
       h1: 'Darling, I’ll call you later…', hsub: 'Fusion Street Food und Bar · Sopron, Várkerület 57.', hgo1: 'Speisekarte', hgo2: 'Tisch reservieren',
       aboutH: 'Über uns',
       lede: 'Zwei Räume und eine Terrasse am Várkerület, in jedem Raum dreißig Plätze. Die Küche brät von halb eins bis halb zehn Burger und stellt Poke Bowls zusammen, die Bar hat freitags bis eins und samstags bis zwei Uhr geöffnet.',
-      capTerasz: 'Terrasse am Várkerület, mit Heizstrahlern',
+      capTerasz: 'Terrasse am Várkerület, mit Heizstrahlern', capBar: 'Die Bar', capAsztal: 'Cocktail und Getränkekarte',
       menuH: 'Speisekarte', menuNote: 'Die Küche kocht von 12:30 bis 21:30 Uhr. Jeden Burger gibt es auch mit glutenfreiem Brötchen, gegen 600 Ft Aufpreis.',
       menuFoot: 'Preise in Forint inklusive Mehrwertsteuer, wir verrechnen keine Servicegebühr. Fragen zu Allergenen beantwortet gern die Bedienung.',
       barH: 'Cocktails', shot: 'Darling Shot, 700 Ft pro Stück. Mindestens vier, die Sorte suchst du aus.', classH: 'Die Klassiker gibt es auch',
@@ -55,7 +54,7 @@
       h1: 'Darling, I’ll call you later…', hsub: 'Fusion street food and bar · Sopron, Várkerület 57.', hgo1: 'Menu', hgo2: 'Book a table',
       aboutH: 'About us',
       lede: 'Two rooms and a terrace on Várkerület, thirty seats in each room. The kitchen grills burgers and builds poke bowls from half past twelve to half past nine, and the bar stays open until one on Fridays and two on Saturdays.',
-      capTerasz: 'The terrace on Várkerület, with heaters',
+      capTerasz: 'The terrace on Várkerület, with heaters', capBar: 'The bar', capAsztal: 'Cocktail and drinks list',
       menuH: 'Menu', menuNote: 'The kitchen cooks from 12:30 to 21:30. Any burger comes on a gluten-free bun for 600 Ft extra.',
       menuFoot: 'Prices are in forints and include VAT. We do not add a service charge. Ask your server about allergens.',
       barH: 'Cocktails', shot: 'Darling Shot, 700 Ft each. Order at least four, you pick the flavour.', classH: 'We serve the classics too',
@@ -79,7 +78,7 @@
 
   /* ------------------------------------------------------------------ étlap (a hely nyomtatott étlapja alapján) */
   var MENU = [
-    { k: 'Burger', img: 'f-burger', alt: ['Smashed burger hasábburgonyával és sörrel', 'Smashed Burger mit Pommes und Bier', 'Smashed burger with fries and beer'], items: [
+    { k: 'Burger', img: 'm-burger', alt: ['Smashed burger hasábburgonyával és sörrel', 'Smashed Burger mit Pommes und Bier', 'Smashed burger with fries and beer'], items: [
       ['Darling Smashed', 3290, ['Darling szósz, marhahúspogácsa, cheddar, jégsaláta, paradicsom, uborka, hagyma, bacon', 'Darling-Sauce, Rindfleisch-Patty, Cheddar, Eisbergsalat, Tomate, Gurke, Zwiebel, Bacon', 'Darling sauce, beef patty, cheddar, iceberg, tomato, pickle, onion, bacon']],
       ['Double Smashed', 4190, ['Ugyanez két marhahúspogácsával', 'Dasselbe mit zwei Rindfleisch-Patties', 'The same with two beef patties']],
       ['Fresh Chicken', 3390, ['Majonéz, ropogós csirkemell, paradicsom, hagyma, jégsaláta, uborka, sajt, bacon', 'Mayonnaise, knusprige Hähnchenbrust, Tomate, Zwiebel, Eisbergsalat, Gurke, Käse, Bacon', 'Mayo, crispy chicken breast, tomato, onion, iceberg, pickle, cheese, bacon']],
@@ -87,18 +86,18 @@
       ['Hot AF', 3890, ['Chipotle majonéz, marhahúspogácsa, cheddarszósz, jalapeño, jégsaláta, uborka, paradicsom, hagyma, bacon', 'Chipotle-Mayo, Rindfleisch-Patty, Cheddarsauce, Jalapeño, Eisbergsalat, Gurke, Tomate, Zwiebel, Bacon', 'Chipotle mayo, beef patty, cheddar sauce, jalapeño, iceberg, pickle, tomato, onion, bacon'], ['csípős', 'scharf', 'spicy']],
       ['Cute Cow', 3990, ['Vegán házi szósz, Beyond Meat, vegán cheddar, jégsaláta, paradicsom, uborka, hagyma, kókuszolaj', 'Vegane Haussauce, Beyond Meat, veganer Cheddar, Eisbergsalat, Tomate, Gurke, Zwiebel, Kokosöl', 'Vegan house sauce, Beyond Meat, vegan cheddar, iceberg, tomato, pickle, onion, coconut oil'], ['vegán', 'vegan', 'vegan']]
     ] },
-    { k: 'Poke bowl', img: 'f-poke', alt: ['Poke bowl lazaccal, avokádóval és zöldségekkel', 'Poke Bowl mit Lachs, Avocado und Gemüse', 'Poke bowl with salmon, avocado and vegetables'], note: ['Alapnak választhatsz rizstésztát, sushi rizst, zöldsalátát vagy barna rizst, a feltétek kérésre cserélhetők.', 'Als Basis Reisnudeln, Sushireis, grüner Salat oder Naturreis, die Zutaten tauschen wir auf Wunsch.', 'Pick rice noodles, sushi rice, salad or brown rice as the base, toppings can be swapped on request.'], items: [
+    { k: 'Poke bowl', img: 'm-poke', alt: ['Poke bowl lazaccal, avokádóval és zöldségekkel', 'Poke Bowl mit Lachs, Avocado und Gemüse', 'Poke bowl with salmon, avocado and vegetables'], note: ['Alapnak választhatsz rizstésztát, sushi rizst, zöldsalátát vagy barna rizst, a feltétek kérésre cserélhetők.', 'Als Basis Reisnudeln, Sushireis, grüner Salat oder Naturreis, die Zutaten tauschen wir auf Wunsch.', 'Pick rice noodles, sushi rice, salad or brown rice as the base, toppings can be swapped on request.'], items: [
       ['Chicken Teriyaki Bowl', 3490, ['Csirkemell, sárgarépa, uborka, avokádó, paradicsom, kukorica, cékla; teriyaki, szója, majonéz', 'Hähnchenbrust, Karotte, Gurke, Avocado, Tomate, Mais, Rote Bete; Teriyaki, Soja, Mayonnaise', 'Chicken breast, carrot, cucumber, avocado, tomato, corn, beetroot; teriyaki, soy, mayo']],
       ['Tofu Bowl', 3490, ['Pirított tofu, wakame, avokádó, mangó, lilakáposzta, cukkini, sárgarépa; hoisin, szója', 'Gebratener Tofu, Wakame, Avocado, Mango, Rotkohl, Zucchini, Karotte; Hoisin, Soja', 'Seared tofu, wakame, avocado, mango, red cabbage, courgette, carrot; hoisin, soy']],
       ['Silly Salmon Bowl', 3790, ['Lazac, wakame, avokádó, retek, babcsíra, sárgarépa, cékla, kukorica; szója, wasabis majonéz', 'Lachs, Wakame, Avocado, Radieschen, Sprossen, Karotte, Rote Bete, Mais; Soja, Wasabi-Mayo', 'Salmon, wakame, avocado, radish, bean sprouts, carrot, beetroot, corn; soy, wasabi mayo']],
       ['Shrimp Bowl', 3990, ['Garnélarák, edamame, paradicsom, brokkoli, avokádó, mangó, babcsíra, retek, szezámmag; teriyaki, chilis majonéz', 'Garnelen, Edamame, Tomate, Brokkoli, Avocado, Mango, Sprossen, Radieschen, Sesam; Teriyaki, Chili-Mayo', 'Shrimp, edamame, tomato, broccoli, avocado, mango, bean sprouts, radish, sesame; teriyaki, chilli mayo']]
     ] },
-    { k: 'Wrap', img: 'w-wrap', alt: ['Kettévágott wrap salátával', 'Halbierter Wrap mit Salat', 'Wrap cut in half with salad'], items: [
+    { k: 'Wrap', img: 'm-wrap', alt: ['Kettévágott wrap salátával', 'Halbierter Wrap mit Salat', 'Wrap cut in half with salad'], items: [
       ['Sophia', 3290, ['Grillezett csirke, jégsaláta, kukorica, tejföl, lime, jalapeño, cheddar', 'Gegrilltes Hähnchen, Eisbergsalat, Mais, Sauerrahm, Limette, Jalapeño, Cheddar', 'Grilled chicken, iceberg, corn, sour cream, lime, jalapeño, cheddar']],
       ['Maya', 3390, ['Ropogós csirke, borsos majonéz, szárított paradicsom, olívabogyó, parmezán, madársaláta', 'Knuspriges Hähnchen, Pfeffermayo, getrocknete Tomaten, Oliven, Parmesan, Feldsalat', 'Crispy chicken, pepper mayo, sun-dried tomato, olives, parmesan, lamb’s lettuce']],
       ['Liza', 3490, ['Camembert, vörösáfonya-szósz, madársaláta, körte, dió, olívaolaj', 'Camembert, Preiselbeersauce, Feldsalat, Birne, Walnuss, Olivenöl', 'Camembert, cranberry sauce, lamb’s lettuce, pear, walnut, olive oil']]
     ] },
-    { k: ['Hot dog és toast', 'Hot Dog und Toast', 'Hot dogs and toasties'], img: 'w-hotdog', alt: ['Hot dog sült hagymával', 'Hot Dog mit Röstzwiebeln', 'Hot dog with crispy onions'], note: ['A hot doghoz frankfurti virslit vagy sajtos kolbászt kérhetsz.', 'Beim Hot Dog wählst du zwischen Frankfurter und Käsewurst.', 'Hot dogs come with a frankfurter or a cheese sausage.'], items: [
+    { k: ['Hot dog és toast', 'Hot Dog und Toast', 'Hot dogs and toasties'], img: 'm-hotdog', alt: ['Hot dog sült hagymával', 'Hot Dog mit Röstzwiebeln', 'Hot dog with crispy onions'], note: ['A hot doghoz frankfurti virslit vagy sajtos kolbászt kérhetsz.', 'Beim Hot Dog wählst du zwischen Frankfurter und Käsewurst.', 'Hot dogs come with a frankfurter or a cheese sausage.'], items: [
       ['Hot dog Extra', 2790, ['Ketchup, mustár, csemegeuborka, pirított hagyma, jalapeño, cheddar', 'Ketchup, Senf, Essiggurke, Röstzwiebeln, Jalapeño, Cheddar', 'Ketchup, mustard, gherkin, crispy onion, jalapeño, cheddar']],
       ['Hot dog Little Italy', 2890, ['Majonéz, szárított paradicsom, olívabogyó, mozzarella', 'Mayonnaise, getrocknete Tomaten, Oliven, Mozzarella', 'Mayo, sun-dried tomato, olives, mozzarella']],
       ['Toast', 2290, ['Vaj, sonka, sajt, saláta, ketchup', 'Butter, Schinken, Käse, Salat, Ketchup', 'Butter, ham, cheese, lettuce, ketchup']],
@@ -107,7 +106,7 @@
       ['Retro Gombás', 2590, ['Gombakrém, sajt', 'Pilzcreme, Käse', 'Mushroom spread, cheese']],
       ['Retro Magyaros', 2690, ['Paprikás vajkrém, sajt, füstölt tarja, paprikás szalámi, lilahagyma', 'Paprika-Buttercreme, Käse, geräucherter Schweinekamm, Paprikasalami, rote Zwiebel', 'Paprika butter, cheese, smoked pork neck, paprika salami, red onion']]
     ] },
-    { k: ['Előétel és snack', 'Vorspeisen und Snacks', 'Starters and snacks'], img: 'w-strips', alt: ['Ropogós csirkecsíkok szósszal', 'Knusprige Hähnchenstreifen mit Dip', 'Crispy chicken strips with dip'], items: [
+    { k: ['Előétel és snack', 'Vorspeisen und Snacks', 'Starters and snacks'], img: 'm-strips', alt: ['Ropogós csirkecsíkok szósszal', 'Knusprige Hähnchenstreifen mit Dip', 'Crispy chicken strips with dip'], items: [
       ['Summer Roll Shrimp', 1990, ['Garnéla, üvegtészta, sárgarépa, uborka, koriander, lilakáposzta, mogyoró', 'Garnele, Glasnudeln, Karotte, Gurke, Koriander, Rotkohl, Erdnuss', 'Shrimp, glass noodles, carrot, cucumber, coriander, red cabbage, peanut']],
       ['Summer Roll Veggie', 1690, ['Avokádó, üvegtészta, sárgarépa, uborka, menta, lilakáposzta, mogyoró', 'Avocado, Glasnudeln, Karotte, Gurke, Minze, Rotkohl, Erdnuss', 'Avocado, glass noodles, carrot, cucumber, mint, red cabbage, peanut']],
       ['Crispy Chicken Strips', '2490 / 3490', ['5 vagy 8 darab, szósszal', '5 oder 8 Stück, mit Sauce', '5 or 8 pieces, with a sauce']],
@@ -118,7 +117,7 @@
       [['Édesburgonya kosár', 'Süßkartoffel-Pommes', 'Sweet potato fries'], 2290, ['Szósszal', 'Mit Sauce', 'With a sauce']],
       [['Darling vegyes hidegtál', 'Darling Platte, gemischt', 'Darling mixed platter'], 4790, ['Kenyérrel és kenőkkel. Sajttálként 4990, húsos tálként 4490 Ft.', 'Mit Brot und Aufstrichen. Als Käseplatte 4990, als Fleischplatte 4490 Ft.', 'With bread and spreads. Cheese platter 4990, meat platter 4490 Ft.']]
     ] },
-    { k: ['Desszert', 'Dessert', 'Desserts'], img: 'logo', items: [
+    { k: ['Desszert', 'Dessert', 'Desserts'], img: 'm-desszert', items: [
       ['Tiramisu', 1690, null],
       ['Churros', 1890, ['Nutellás vagy lekváros mártogatóval', 'Mit Nutella- oder Marmeladendip', 'With a Nutella or jam dip']],
       ['Bubble waffle', 2490, ['Berry: kékáfonyalekvár, vaníliapuding, erdei gyümölcs, tejszínhab. Banana: nutella, csokipuding, banán, Kinder csokoládé. Vanilla: vaníliafagyi, nutella, málna, fehér csoki.', 'Berry: Heidelbeermarmelade, Vanillepudding, Waldfrüchte, Sahne. Banana: Nutella, Schokopudding, Banane, Kinder-Schokolade. Vanilla: Vanilleeis, Nutella, Himbeere, weiße Schokolade.', 'Berry: blueberry jam, vanilla pudding, forest fruit, whipped cream. Banana: Nutella, chocolate pudding, banana, Kinder chocolate. Vanilla: vanilla ice cream, Nutella, raspberry, white chocolate.']],
@@ -211,8 +210,8 @@
     var key = g.img, im = picCache[key];
     if (!im) {
       im = new Image(); im.decoding = 'async'; im.alt = '';
-      if (key === 'logo') { im.src = 'img/logo.svg?v=2'; im.className = 'is-logo'; }
-      else { im.src = 'img/' + key + '-800.webp?v=2'; im.srcset = 'img/' + key + '-800.webp?v=2 800w, img/' + key + '-1400.webp?v=2 1400w'; im.sizes = '(min-width: 900px) 30vw, 100vw'; }
+      if (key === 'logo') { im.src = 'img/logo.svg?v=3'; im.className = 'is-logo'; }
+      else { im.src = 'img/' + key + '-800.webp?v=3'; im.srcset = 'img/' + key + '-800.webp?v=3 800w, img/' + key + '-1400.webp?v=3 1400w'; im.sizes = '(min-width: 900px) 30vw, 100vw'; }
       picCache[key] = im; fr.appendChild(im);
     }
     $$('img', fr).forEach(function (x) { x.classList.remove('was'); if (x.classList.contains('is-on') && x !== im) { x.classList.remove('is-on'); x.classList.add('was'); } });
@@ -243,6 +242,16 @@
       if (h.classList.contains('h2')) h.insertAdjacentHTML('beforeend', PEND.replace('pend"', 'pend' + (h.hasAttribute('data-lit') ? ' is-lit' : '') + '"'));
     });
     if (lampObs) $$('.pend:not(.is-lit)').forEach(function (p) { lampObs.observe(p.parentNode); });
+    requestAnimationFrame(alignCones);
+  }
+  /* a fénykúpban a tapéta mintája pontosan a szakasz mintájára illeszkedik */
+  function alignCones() {
+    $$('.pend__c').forEach(function (c) {
+      var sec = c.closest('.sec'); if (!sec) return;
+      var a = c.getBoundingClientRect(), b = sec.getBoundingClientRect();
+      var x = ((b.left - a.left) % 120 + 120) % 120, y = ((b.top - a.top) % 60 + 60) % 60;
+      c.style.backgroundPosition = x.toFixed(1) + 'px ' + y.toFixed(1) + 'px, 0 0';
+    });
   }
   /* lefutott fény-animációk lezárása, hogy ne maradjanak külön rétegen */
   document.addEventListener('animationend', function (e) {
@@ -374,7 +383,7 @@
     }
     G.kick = function () { if (G.ok && G.vis && !G.run) { G.run = true; gsap.ticker.add(frame); } };
     function load() {
-      im.src = 'img/hero-' + (innerWidth > 1500 ? 2400 : 1400) + '.webp?v=2'; dep.src = 'img/hero-depth.webp?v=2';
+      im.src = 'img/hero-' + (innerWidth > 1500 ? 2400 : 1400) + '.webp?v=3'; dep.src = 'img/hero-depth.webp?v=3';
       var bm = function (x) { return window.createImageBitmap ? createImageBitmap(x).catch(function () { return x; }) : Promise.resolve(x); };
       Promise.all([im.decode(), dep.decode()]).then(function () { return Promise.all([bm(im), bm(dep)]); }).then(function (bms) {
         tex(0, bms[0]); tex(1, bms[1]);
@@ -609,7 +618,7 @@
   var deck = $('#deck');
   deck.innerHTML = CARDS.map(function (k, i) {
     var r = [-4, 3, -2, 5, -5, 2, -3, 4, -1, 3][i];
-    return '<figure class="card" style="--r:' + r + 'deg" data-n="' + ('0' + (i + 1)).slice(-2) + ' / ' + CARDS.length + '"><img src="img/' + k + '-600.webp?v=2" srcset="img/' + k + '-600.webp?v=2 600w, img/' + k + '-1100.webp?v=2 1100w" sizes="(min-width: 900px) 420px, 68vw" alt=""' + (i < 2 ? '' : ' loading="lazy"') + ' width="600" height="880"><i class="card__dim"></i></figure>';
+    return '<figure class="card" style="--r:' + r + 'deg" data-n="' + ('0' + (i + 1)).slice(-2) + ' / ' + CARDS.length + '"><img src="img/' + k + '-600.webp?v=3" srcset="img/' + k + '-600.webp?v=3 600w, img/' + k + '-1100.webp?v=3 1100w" sizes="(min-width: 900px) 420px, 68vw" alt=""' + (i < 2 ? '' : ' loading="lazy"') + ' width="600" height="880"><i class="card__dim"></i></figure>';
   }).join('');
 
   var mm = gsap.matchMedia();
