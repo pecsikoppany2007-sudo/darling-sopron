@@ -1,4 +1,4 @@
-/* Darling, I’ll call you later… – bemutató oldal, v4.
+/* Darling, I’ll call you later… – bemutató oldal, v5.
    GSAP + ScrollTrigger. Egérrel Lenis (lassabb, puhább görgetés), érintőn natív görgetés: ott semmi nem követi az ujjat, csak egyszeri, időzített mozgások vannak. */
 (function () {
   'use strict';
@@ -196,7 +196,7 @@
   function renderMenu(anim) {
     var g = MENU[tabI], list = $('#menuList');
     var h = g.items.map(function (it, k) {
-      return '<div class="dish" style="--k:' + k + '"><p class="dish__n">' + esc(L(it[0])) + (it[3] ? ' <span class="dish__t">' + esc(L(it[3])) + '</span>' : '') + '</p><p class="dish__p">' + esc(price(it[1])) + '</p>' + (it[2] ? '<p class="dish__d">' + esc(L(it[2])) + '</p>' : '') + '</div>';
+      return '<div class="dish" style="--k:' + k + '"><i class="dish__h" aria-hidden="true">' + (k < 9 ? '0' : '') + (k + 1) + '</i><p class="dish__n">' + esc(L(it[0])) + (it[3] ? ' <span class="dish__t">' + esc(L(it[3])) + '</span>' : '') + '</p><p class="dish__p">' + esc(price(it[1])) + '</p>' + (it[2] ? '<p class="dish__d">' + esc(L(it[2])) + '</p>' : '') + '</div>';
     }).join('');
     if (g.note) h += '<p class="dish__d" style="margin-top:18px">' + esc(L(g.note)) + '</p>';
     list.innerHTML = h;
@@ -210,8 +210,8 @@
     var key = g.img, im = picCache[key];
     if (!im) {
       im = new Image(); im.decoding = 'async'; im.alt = '';
-      if (key === 'logo') { im.src = 'img/logo.svg?v=4'; im.className = 'is-logo'; }
-      else { im.src = 'img/' + key + '-800.webp?v=4'; im.srcset = 'img/' + key + '-800.webp?v=4 800w, img/' + key + '-1400.webp?v=4 1400w'; im.sizes = '(min-width: 900px) 30vw, 100vw'; }
+      if (key === 'logo') { im.src = 'img/logo.svg?v=5'; im.className = 'is-logo'; }
+      else { im.src = 'img/' + key + '-800.webp?v=5'; im.srcset = 'img/' + key + '-800.webp?v=5 800w, img/' + key + '-1400.webp?v=5 1400w'; im.sizes = '(min-width: 900px) 30vw, 100vw'; }
       picCache[key] = im; fr.appendChild(im);
     }
     $$('img', fr).forEach(function (x) { x.classList.remove('was'); if (x.classList.contains('is-on') && x !== im) { x.classList.remove('is-on'); x.classList.add('was'); } });
@@ -383,7 +383,7 @@
     }
     G.kick = function () { if (G.ok && G.vis && !G.run) { G.run = true; gsap.ticker.add(frame); } };
     function load() {
-      im.src = 'img/hero-' + (innerWidth > 1500 ? 2400 : 1400) + '.webp?v=4'; dep.src = 'img/hero-depth.webp?v=4';
+      im.src = 'img/hero-' + (innerWidth > 1500 ? 2400 : 1400) + '.webp?v=5'; dep.src = 'img/hero-depth.webp?v=5';
       var bm = function (x) { return window.createImageBitmap ? createImageBitmap(x).catch(function () { return x; }) : Promise.resolve(x); };
       Promise.all([im.decode(), dep.decode()]).then(function () { return Promise.all([bm(im), bm(dep)]); }).then(function (bms) {
         tex(0, bms[0]); tex(1, bms[1]);
@@ -618,7 +618,7 @@
   var deck = $('#deck');
   deck.innerHTML = CARDS.map(function (k, i) {
     var r = [-4, 3, -2, 5, -5, 2, -3, 4, -1, 3][i];
-    return '<figure class="card" style="--r:' + r + 'deg" data-n="' + ('0' + (i + 1)).slice(-2) + ' / ' + CARDS.length + '"><img src="img/' + k + '-600.webp?v=4" srcset="img/' + k + '-600.webp?v=4 600w, img/' + k + '-1100.webp?v=4 1100w" sizes="(min-width: 900px) 420px, 68vw" alt=""' + (i < 2 ? '' : ' loading="lazy"') + ' width="600" height="880"><i class="card__dim"></i></figure>';
+    return '<figure class="card" style="--r:' + r + 'deg" data-n="' + ('0' + (i + 1)).slice(-2) + ' / ' + CARDS.length + '"><img src="img/' + k + '-600.webp?v=5" srcset="img/' + k + '-600.webp?v=5 600w, img/' + k + '-1100.webp?v=5 1100w" sizes="(min-width: 900px) 420px, 68vw" alt=""' + (i < 2 ? '' : ' loading="lazy"') + ' width="600" height="880"><i class="card__dim"></i></figure>';
   }).join('');
 
   var mm = gsap.matchMedia();
@@ -703,13 +703,14 @@
     var cv = $('#smoke'), gl = cv && cv.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false, depth: false });
     if (!gl) return;
     var VS = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
-    var FS = 'precision mediump float;uniform vec2 R;uniform float S,T;uniform vec4 C[4];uniform float A[4];uniform vec4 M;' +
+    var FS = 'precision mediump float;uniform vec2 R;uniform float S,T;uniform vec4 C[4];uniform float A[4];uniform vec4 M;uniform vec3 P;' +
       'float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}' +
       'float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1.,0.)),f.x),mix(h(i+vec2(0.,1.)),h(i+1.),f.x),f.y);}' +
       'float fb(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*n(p);p=p*2.03+17.;a*=.5;}return v;}' +
       'void main(){vec2 p=vec2(gl_FragCoord.x,R.y-gl_FragCoord.y)/S;float L=0.;' +
       'for(int i=0;i<4;i++){vec4 c=C[i];vec2 d=p-c.xy;float an=atan(abs(d.x),max(d.y,.001));' +
       'float e=length(vec2(d.x/(c.z*.36),d.y/c.w));L+=A[i]*step(0.,d.y)*smoothstep(.62,.1,an)*(1.-smoothstep(.12,1.,e));}' +
+      'vec2 dp=p-P.xy;L+=P.z*.75*exp(-dot(dp,dp)/52000.);' +
       'if(L<.003){gl_FragColor=vec4(0.);return;}' +
       'vec2 q=p/230.+vec2(0.,T*.045);vec2 dm=p-M.xy;q-=M.zw*exp(-dot(dm,dm)/30000.);' +
       'q+=.85*vec2(fb(q+vec2(T*.02,3.1)),fb(q+vec2(5.2,-T*.025)));' +
@@ -723,16 +724,18 @@
     gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
     var loc = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    var U = {}; ['R', 'S', 'T', 'C', 'A', 'M'].forEach(function (k) { U[k] = gl.getUniformLocation(pr, k); });
+    var U = {}; ['R', 'S', 'T', 'C', 'A', 'M', 'P'].forEach(function (k) { U[k] = gl.getUniformLocation(pr, k); });
     var SC = .5, cw = 0, ch = 0;
     function size() { cw = Math.round(cv.clientWidth * SC); ch = Math.round(cv.clientHeight * SC); cv.width = cw; cv.height = ch; gl.viewport(0, 0, cw, ch); }
     html.classList.add('gl-smoke'); size();
     addEventListener('resize', size);
-    var mx = -9999, my = -9999, vx = 0, vy = 0, lx = null, ly = 0, run = false, drawn = false, t0 = performance.now();
+    var mx = -9999, my = -9999, vx = 0, vy = 0, lx = null, ly = 0, run = false, drawn = false, t0 = performance.now(), sx = 0, sy = 0, pa = 0, lastMove = -1e9;
     addEventListener('pointermove', function (e) {
       if (lx !== null) { vx += (e.clientX - lx) * .004; vy += (e.clientY - ly) * .004; }
-      lx = mx = e.clientX; ly = my = e.clientY;
+      if (lastMove < 0) { sx = e.clientX; sy = e.clientY; }
+      lx = mx = e.clientX; ly = my = e.clientY; lastMove = performance.now(); wake();
     }, { passive: true });
+    document.addEventListener('pointerleave', function () { lastMove = -1e9; });
     var Cv = new Float32Array(16), Av = new Float32Array(4);
     function frame(now) {
       var vh = innerHeight, k = 0;
@@ -745,11 +748,13 @@
         Cv[k * 4] = r.left + r.width / 2; Cv[k * 4 + 1] = r.top; Cv[k * 4 + 2] = r.width; Cv[k * 4 + 3] = r.height;
         Av[k] = Math.min(1, Math.max(0, (now - c._st - 400) / 1600)); k++;
       });
-      if (!k) { if (drawn) { gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); drawn = false; } run = false; return; }
+      sx += (mx - sx) * .06; sy += (my - sy) * .06;
+      pa += ((now - lastMove < 2500 ? 1 : 0) - pa) * .03;
+      if (!k && pa < .01) { if (drawn) { gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); drawn = false; } run = false; return; }
       vx *= .93; vy *= .93;
       var vm = Math.sqrt(vx * vx + vy * vy); if (vm > .6) { vx *= .6 / vm; vy *= .6 / vm; }
       gl.uniform2f(U.R, cw, ch); gl.uniform1f(U.S, SC); gl.uniform1f(U.T, (now - t0) / 1000);
-      gl.uniform4fv(U.C, Cv); gl.uniform1fv(U.A, Av); gl.uniform4f(U.M, mx, my, vx, vy);
+      gl.uniform4fv(U.C, Cv); gl.uniform1fv(U.A, Av); gl.uniform4f(U.M, mx, my, vx, vy); gl.uniform3f(U.P, sx, sy, pa);
       gl.drawArrays(gl.TRIANGLES, 0, 3); drawn = true;
       requestAnimationFrame(frame);
     }
@@ -758,6 +763,12 @@
     document.addEventListener('animationstart', function (e) { if (e.animationName === 'lampOn') wake(); });
     wake();
   })();
+
+  /* füstsávok csak látható helyen mozognak */
+  if ('IntersectionObserver' in window) {
+    var smkObs = new IntersectionObserver(function (es) { es.forEach(function (e) { e.target.classList.toggle('is-off', !e.isIntersecting); }); });
+    $$('.smk').forEach(function (m) { m.classList.add('is-off'); smkObs.observe(m); });
+  }
 
   /* élő nyitvatartás percenként */
   setInterval(renderLive, 60000);
