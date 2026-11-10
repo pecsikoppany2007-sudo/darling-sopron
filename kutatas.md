@@ -44,6 +44,7 @@
 - v5 (2026-11-09): a lámpafény mintája is kúp alakú, nincs egyenes széle; füst a kezdőképen, a lábléc felirata mögött és az egérrel vitt fényben is; egyedibb listák: étlapon tárcsalyuk-sorszám és ráállva felkapcsoló sor, koktéloknál dőlt név és kör alakú ár, a klasszikusok izzókkal elválasztott sorban, italoknál római számos csoportok saját izzóval. Tesztek: gépen 0,9–1,5%, telefonon 0,2%.
 - v6 (2026-11-10): kevesebb füst (kopi: túl halloweenes lett): a lábléc füstje és az egér körüli füst ki, a kezdőkép alján csak halvány pára, a lámpák alatt is gyengébb.
 - v7 (2026-11-10): visszafogott, folyamatosan mozgó füst: a koktélkártyák mögött, a filmes nyitásban az ajtórés fényében, a lámpák alatt (felkapcsoláskor kis pára). Gépen GPU-val élő WebGL füst a lámpáknál; GPU nélküli gépen a lámpák alatt álló füstkép, a koktélfüst kimarad. Tesztek: telefonon 0,5%.
+- v8 (2026-11-10): a kezdőképről minden füst lekerült. Valódi, felfelé szálló és kavargó füst WebGL-lel minden GPU-s eszközön (telefonon is): a lámpák fényében (felkapcsoláskor kis pára), a koktélkártyák körül és fölött, a nyitásban az ajtórés fényében, ami ajtónyitásra eltűnik.
 
 ## Jogi és minőségi ellenőrzés
 - Impresszum + tárhely + adatkezelés: jogi.html (cégjegyzékszám, adószám: kitöltendő).
