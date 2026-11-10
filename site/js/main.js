@@ -1,4 +1,4 @@
-/* Darling, I’ll call you later… – bemutató oldal, v5.
+/* Darling, I’ll call you later… – bemutató oldal, v6.
    GSAP + ScrollTrigger. Egérrel Lenis (lassabb, puhább görgetés), érintőn natív görgetés: ott semmi nem követi az ujjat, csak egyszeri, időzített mozgások vannak. */
 (function () {
   'use strict';
@@ -210,8 +210,8 @@
     var key = g.img, im = picCache[key];
     if (!im) {
       im = new Image(); im.decoding = 'async'; im.alt = '';
-      if (key === 'logo') { im.src = 'img/logo.svg?v=5'; im.className = 'is-logo'; }
-      else { im.src = 'img/' + key + '-800.webp?v=5'; im.srcset = 'img/' + key + '-800.webp?v=5 800w, img/' + key + '-1400.webp?v=5 1400w'; im.sizes = '(min-width: 900px) 30vw, 100vw'; }
+      if (key === 'logo') { im.src = 'img/logo.svg?v=6'; im.className = 'is-logo'; }
+      else { im.src = 'img/' + key + '-800.webp?v=6'; im.srcset = 'img/' + key + '-800.webp?v=6 800w, img/' + key + '-1400.webp?v=6 1400w'; im.sizes = '(min-width: 900px) 30vw, 100vw'; }
       picCache[key] = im; fr.appendChild(im);
     }
     $$('img', fr).forEach(function (x) { x.classList.remove('was'); if (x.classList.contains('is-on') && x !== im) { x.classList.remove('is-on'); x.classList.add('was'); } });
@@ -383,7 +383,7 @@
     }
     G.kick = function () { if (G.ok && G.vis && !G.run) { G.run = true; gsap.ticker.add(frame); } };
     function load() {
-      im.src = 'img/hero-' + (innerWidth > 1500 ? 2400 : 1400) + '.webp?v=5'; dep.src = 'img/hero-depth.webp?v=5';
+      im.src = 'img/hero-' + (innerWidth > 1500 ? 2400 : 1400) + '.webp?v=6'; dep.src = 'img/hero-depth.webp?v=6';
       var bm = function (x) { return window.createImageBitmap ? createImageBitmap(x).catch(function () { return x; }) : Promise.resolve(x); };
       Promise.all([im.decode(), dep.decode()]).then(function () { return Promise.all([bm(im), bm(dep)]); }).then(function (bms) {
         tex(0, bms[0]); tex(1, bms[1]);
@@ -618,7 +618,7 @@
   var deck = $('#deck');
   deck.innerHTML = CARDS.map(function (k, i) {
     var r = [-4, 3, -2, 5, -5, 2, -3, 4, -1, 3][i];
-    return '<figure class="card" style="--r:' + r + 'deg" data-n="' + ('0' + (i + 1)).slice(-2) + ' / ' + CARDS.length + '"><img src="img/' + k + '-600.webp?v=5" srcset="img/' + k + '-600.webp?v=5 600w, img/' + k + '-1100.webp?v=5 1100w" sizes="(min-width: 900px) 420px, 68vw" alt=""' + (i < 2 ? '' : ' loading="lazy"') + ' width="600" height="880"><i class="card__dim"></i></figure>';
+    return '<figure class="card" style="--r:' + r + 'deg" data-n="' + ('0' + (i + 1)).slice(-2) + ' / ' + CARDS.length + '"><img src="img/' + k + '-600.webp?v=6" srcset="img/' + k + '-600.webp?v=6 600w, img/' + k + '-1100.webp?v=6 1100w" sizes="(min-width: 900px) 420px, 68vw" alt=""' + (i < 2 ? '' : ' loading="lazy"') + ' width="600" height="880"><i class="card__dim"></i></figure>';
   }).join('');
 
   var mm = gsap.matchMedia();
@@ -710,11 +710,10 @@
       'void main(){vec2 p=vec2(gl_FragCoord.x,R.y-gl_FragCoord.y)/S;float L=0.;' +
       'for(int i=0;i<4;i++){vec4 c=C[i];vec2 d=p-c.xy;float an=atan(abs(d.x),max(d.y,.001));' +
       'float e=length(vec2(d.x/(c.z*.36),d.y/c.w));L+=A[i]*step(0.,d.y)*smoothstep(.62,.1,an)*(1.-smoothstep(.12,1.,e));}' +
-      'vec2 dp=p-P.xy;L+=P.z*.75*exp(-dot(dp,dp)/52000.);' +
       'if(L<.003){gl_FragColor=vec4(0.);return;}' +
       'vec2 q=p/230.+vec2(0.,T*.045);vec2 dm=p-M.xy;q-=M.zw*exp(-dot(dm,dm)/30000.);' +
       'q+=.85*vec2(fb(q+vec2(T*.02,3.1)),fb(q+vec2(5.2,-T*.025)));' +
-      'float s=smoothstep(.36,.9,fb(q*1.15));float a=min(L,1.)*s*.3;gl_FragColor=vec4(vec3(1.,.8,.5)*a,a);}';
+      'float s=smoothstep(.36,.9,fb(q*1.15));float a=min(L,1.)*s*.17;gl_FragColor=vec4(vec3(1.,.8,.5)*a,a);}';
     function sh(t, src) { var o = gl.createShader(t); gl.shaderSource(o, src); gl.compileShader(o); return gl.getShaderParameter(o, gl.COMPILE_STATUS) ? o : null; }
     var vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS);
     if (!vs || !fs) return;
@@ -749,7 +748,7 @@
         Av[k] = Math.min(1, Math.max(0, (now - c._st - 400) / 1600)); k++;
       });
       sx += (mx - sx) * .06; sy += (my - sy) * .06;
-      pa += ((now - lastMove < 2500 ? 1 : 0) - pa) * .03;
+      pa = 0;
       if (!k && pa < .01) { if (drawn) { gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); drawn = false; } run = false; return; }
       vx *= .93; vy *= .93;
       var vm = Math.sqrt(vx * vx + vy * vy); if (vm > .6) { vx *= .6 / vm; vy *= .6 / vm; }

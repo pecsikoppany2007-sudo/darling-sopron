@@ -42,6 +42,7 @@
 - v3 (2026-11-09, kopi kérésére): a háromképes rész új rendben (két szélesebb fotó, középen a magasabb álló koktélkép, alattuk számozott felirat); étlapfotók cseréje (wrap és desszert muapival javítva, mind négyzetes keretben); a lámpafény lágy, kúp alakban szétterülő fény éles szélek nélkül; papír helyett halvány art deco legyező-tapéta, ami a lámpák fényében jobban kirajzolódik. Tesztek: 320–1920 px, menüpontok, eldobott képkocka gépen 1,3%, telefonon 0,6%.
 - v4 (2026-11-09): a fal sötét, a tapéta mintája csak a lámpák fénykúpjában és az egérrel vitt fény körül rajzolódik ki; a lámpák alatt lassan úszó füst (gépen élő WebGL, amit az egér megkavar, telefonon álló füstkép a fénykúpban). Tesztek: gépen 0,5–0,9%, telefonon 0,8% eldobott képkocka.
 - v5 (2026-11-09): a lámpafény mintája is kúp alakú, nincs egyenes széle; füst a kezdőképen, a lábléc felirata mögött és az egérrel vitt fényben is; egyedibb listák: étlapon tárcsalyuk-sorszám és ráállva felkapcsoló sor, koktéloknál dőlt név és kör alakú ár, a klasszikusok izzókkal elválasztott sorban, italoknál római számos csoportok saját izzóval. Tesztek: gépen 0,9–1,5%, telefonon 0,2%.
+- v6 (2026-11-10): kevesebb füst (kopi: túl halloweenes lett): a lábléc füstje és az egér körüli füst ki, a kezdőkép alján csak halvány pára, a lámpák alatt is gyengébb.
 
 ## Jogi és minőségi ellenőrzés
 - Impresszum + tárhely + adatkezelés: jogi.html (cégjegyzékszám, adószám: kitöltendő).
