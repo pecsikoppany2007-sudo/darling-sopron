@@ -1,4 +1,4 @@
-/* Darling, I’ll call you later… – bemutató oldal, v6.
+/* Darling, I’ll call you later… – bemutató oldal, v7.
    GSAP + ScrollTrigger. Egérrel Lenis (lassabb, puhább görgetés), érintőn natív görgetés: ott semmi nem követi az ujjat, csak egyszeri, időzített mozgások vannak. */
 (function () {
   'use strict';
@@ -23,6 +23,7 @@
   if (!canHover) html.classList.add('touch');
   var desk = canHover && !reduced && innerWidth >= 1024;
   if (desk) html.classList.add('desk');
+  if (desk && !hwGpu) html.classList.add('lite-smoke');
   if (reduced) html.classList.add('no-anim');
 
   var $ = function (s, r) { return (r || document).querySelector(s); };
@@ -210,8 +211,8 @@
     var key = g.img, im = picCache[key];
     if (!im) {
       im = new Image(); im.decoding = 'async'; im.alt = '';
-      if (key === 'logo') { im.src = 'img/logo.svg?v=6'; im.className = 'is-logo'; }
-      else { im.src = 'img/' + key + '-800.webp?v=6'; im.srcset = 'img/' + key + '-800.webp?v=6 800w, img/' + key + '-1400.webp?v=6 1400w'; im.sizes = '(min-width: 900px) 30vw, 100vw'; }
+      if (key === 'logo') { im.src = 'img/logo.svg?v=7'; im.className = 'is-logo'; }
+      else { im.src = 'img/' + key + '-800.webp?v=7'; im.srcset = 'img/' + key + '-800.webp?v=7 800w, img/' + key + '-1400.webp?v=7 1400w'; im.sizes = '(min-width: 900px) 30vw, 100vw'; }
       picCache[key] = im; fr.appendChild(im);
     }
     $$('img', fr).forEach(function (x) { x.classList.remove('was'); if (x.classList.contains('is-on') && x !== im) { x.classList.remove('is-on'); x.classList.add('was'); } });
@@ -242,6 +243,7 @@
       if (h.classList.contains('h2')) h.insertAdjacentHTML('beforeend', PEND.replace('pend"', 'pend' + (h.hasAttribute('data-lit') ? ' is-lit' : '') + '"'));
     });
     if (lampObs) $$('.pend:not(.is-lit)').forEach(function (p) { lampObs.observe(p.parentNode); });
+    if (smkWatch) $$('.pend__f').forEach(smkWatch);
     requestAnimationFrame(alignCones);
   }
   /* a fénykúpban a tapéta mintája pontosan a szakasz mintájára illeszkedik */
@@ -260,7 +262,7 @@
     else if (n === 'lightUp') { var ph = t.closest('.ph'); if (ph) ph.classList.add('is-on'); }
   });
   /* függőlámpa a címek fölött: odaérve vibrálva felkapcsol */
-  var PEND = '<span class="pend" aria-hidden="true"><svg viewBox="0 0 40 20"><path class="pend__s" d="M20 1.5c-3 0-5 2-5.6 4.6C8.2 7 3 11.4 1.5 18.5h37C37 11.4 31.8 7 25.6 6.1 25 3.5 23 1.5 20 1.5z"/></svg><i class="pend__b"></i><i class="pend__c"></i></span>';
+  var PEND = '<span class="pend" aria-hidden="true"><svg viewBox="0 0 40 20"><path class="pend__s" d="M20 1.5c-3 0-5 2-5.6 4.6C8.2 7 3 11.4 1.5 18.5h37C37 11.4 31.8 7 25.6 6.1 25 3.5 23 1.5 20 1.5z"/></svg><i class="pend__b"></i><i class="pend__c"></i>' + (desk ? '' : '<i class="pend__f"></i>') + '</span>';
   var lampObs = ('IntersectionObserver' in window) && !reduced ? new IntersectionObserver(function (es) {
     es.forEach(function (e) { if (!e.isIntersecting) return; var h = e.target; lampObs.unobserve(h); h.setAttribute('data-lit', ''); var p = h.querySelector('.pend'); if (p) p.classList.add('is-lit'); });
   }, { rootMargin: '0px 0px -22% 0px' }) : null;
@@ -383,7 +385,7 @@
     }
     G.kick = function () { if (G.ok && G.vis && !G.run) { G.run = true; gsap.ticker.add(frame); } };
     function load() {
-      im.src = 'img/hero-' + (innerWidth > 1500 ? 2400 : 1400) + '.webp?v=6'; dep.src = 'img/hero-depth.webp?v=6';
+      im.src = 'img/hero-' + (innerWidth > 1500 ? 2400 : 1400) + '.webp?v=7'; dep.src = 'img/hero-depth.webp?v=7';
       var bm = function (x) { return window.createImageBitmap ? createImageBitmap(x).catch(function () { return x; }) : Promise.resolve(x); };
       Promise.all([im.decode(), dep.decode()]).then(function () { return Promise.all([bm(im), bm(dep)]); }).then(function (bms) {
         tex(0, bms[0]); tex(1, bms[1]);
@@ -432,7 +434,10 @@
     A($('.intro__seam'), [{ opacity: 0, transform: 'scaleY(.15)' }, { opacity: .9, transform: 'scaleY(.6)', offset: .1 }, { opacity: .2, offset: .16 }, { opacity: 1, transform: 'scaleY(1)', offset: .32 }, { opacity: .55, offset: .4 }, { opacity: 1, transform: 'scaleY(1)' }], { duration: 1100, delay: t3, easing: 'linear' });
     A($('.intro__glow'), [{ opacity: 0, transform: 'scaleX(.25)' }, { opacity: .7, offset: .1 }, { opacity: .1, offset: .16 }, { opacity: .8, offset: .32 }, { opacity: .4, offset: .4 }, { opacity: 1, transform: 'scaleX(.55)' }], { duration: 1100, delay: t3, easing: 'linear' });
     /* 4. az ajtó kinyílik, a lámpák felkapcsolnak */
+    var smk = $('.intro__smk');
+    A(smk, [{ opacity: 0 }, { opacity: .5, offset: .3 }, { opacity: .25, offset: .4 }, { opacity: 1 }], { duration: 1700, delay: t3 - 100, easing: 'ease-out' });
     var t4 = t3 + 1150, hi = $('.hero__img'), dk = $('#heroDark');
+    A(smk, [{ opacity: 1 }, { opacity: 0 }], { duration: 2600, delay: t4 + 400, easing: 'ease-in-out', fill: 'forwards' });
     hi.style.transform = 'scale(1.22)'; dk.style.opacity = '.9';
     A($('.intro__half--l'), [{ transform: 'none' }, { transform: 'translateX(-101%)' }], { duration: 1900, delay: t4, easing: IO });
     A($('.intro__half--r'), [{ transform: 'none' }, { transform: 'translateX(101%)' }], { duration: 1900, delay: t4, easing: IO });
@@ -618,8 +623,14 @@
   var deck = $('#deck');
   deck.innerHTML = CARDS.map(function (k, i) {
     var r = [-4, 3, -2, 5, -5, 2, -3, 4, -1, 3][i];
-    return '<figure class="card" style="--r:' + r + 'deg" data-n="' + ('0' + (i + 1)).slice(-2) + ' / ' + CARDS.length + '"><img src="img/' + k + '-600.webp?v=6" srcset="img/' + k + '-600.webp?v=6 600w, img/' + k + '-1100.webp?v=6 1100w" sizes="(min-width: 900px) 420px, 68vw" alt=""' + (i < 2 ? '' : ' loading="lazy"') + ' width="600" height="880"><i class="card__dim"></i></figure>';
+    return '<figure class="card" style="--r:' + r + 'deg" data-n="' + ('0' + (i + 1)).slice(-2) + ' / ' + CARDS.length + '"><img src="img/' + k + '-600.webp?v=7" srcset="img/' + k + '-600.webp?v=7 600w, img/' + k + '-1100.webp?v=7 1100w" sizes="(min-width: 900px) 420px, 68vw" alt=""' + (i < 2 ? '' : ' loading="lazy"') + ' width="600" height="880"><i class="card__dim"></i></figure>';
   }).join('');
+
+  /* füst a koktélkártyák mögött; a mozgása csak akkor kerül be, ha tényleg kell (gépen GPU nélkül lassítaná a görgetést) */
+  if (!(desk && !hwGpu)) {
+    deck.insertAdjacentHTML('beforeend', '<div class="dsmk" aria-hidden="true"><i></i><i></i></div>');
+    var dst = document.createElement('style'); dst.textContent = '@keyframes dDrift{from{transform:translate3d(-2%,0,0) scale(1)}to{transform:translate3d(2%,-2%,0) scale(1.05)}}@keyframes dDrift2{from{transform:translate3d(2%,-1%,0) scale(1.04)}to{transform:translate3d(-2%,1%,0) scale(1)}}@keyframes dFade{from{opacity:.15}to{opacity:1}}'; document.head.appendChild(dst);
+  }
 
   var mm = gsap.matchMedia();
   mm.add('(hover: hover) and (pointer: fine) and (min-width: 1181px) and (prefers-reduced-motion: no-preference)', function () {
@@ -711,9 +722,9 @@
       'for(int i=0;i<4;i++){vec4 c=C[i];vec2 d=p-c.xy;float an=atan(abs(d.x),max(d.y,.001));' +
       'float e=length(vec2(d.x/(c.z*.36),d.y/c.w));L+=A[i]*step(0.,d.y)*smoothstep(.62,.1,an)*(1.-smoothstep(.12,1.,e));}' +
       'if(L<.003){gl_FragColor=vec4(0.);return;}' +
-      'vec2 q=p/230.+vec2(0.,T*.045);vec2 dm=p-M.xy;q-=M.zw*exp(-dot(dm,dm)/30000.);' +
-      'q+=.85*vec2(fb(q+vec2(T*.02,3.1)),fb(q+vec2(5.2,-T*.025)));' +
-      'float s=smoothstep(.36,.9,fb(q*1.15));float a=min(L,1.)*s*.17;gl_FragColor=vec4(vec3(1.,.8,.5)*a,a);}';
+      'vec2 q=p/230.+vec2(T*.012,T*.085);vec2 dm=p-M.xy;q-=M.zw*exp(-dot(dm,dm)/30000.);' +
+      'q+=.85*vec2(fb(q+vec2(T*.035,3.1)),fb(q+vec2(5.2,-T*.04)));' +
+      'float s=smoothstep(.36,.9,fb(q*1.15));float a=min(L,2.)*s*.17;gl_FragColor=vec4(vec3(1.,.8,.5)*a,a);}';
     function sh(t, src) { var o = gl.createShader(t); gl.shaderSource(o, src); gl.compileShader(o); return gl.getShaderParameter(o, gl.COMPILE_STATUS) ? o : null; }
     var vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS);
     if (!vs || !fs) return;
@@ -745,7 +756,7 @@
         if (r.bottom < 0 || r.top > vh || r.right < 0 || r.left > innerWidth) return;
         if (!c._st) c._st = now;
         Cv[k * 4] = r.left + r.width / 2; Cv[k * 4 + 1] = r.top; Cv[k * 4 + 2] = r.width; Cv[k * 4 + 3] = r.height;
-        Av[k] = Math.min(1, Math.max(0, (now - c._st - 400) / 1600)); k++;
+        var ts = (now - c._st) / 1000; Av[k] = Math.min(1, Math.max(0, (ts - .2) / .6)) * (1 + Math.exp(-Math.max(ts - .8, 0) / 1.6)); k++;
       });
       sx += (mx - sx) * .06; sy += (my - sy) * .06;
       pa = 0;
@@ -763,10 +774,12 @@
     wake();
   })();
 
-  /* füstsávok csak látható helyen mozognak */
+  /* füst csak látható helyen mozog */
+  var smkWatch = null;
   if ('IntersectionObserver' in window) {
     var smkObs = new IntersectionObserver(function (es) { es.forEach(function (e) { e.target.classList.toggle('is-off', !e.isIntersecting); }); });
-    $$('.smk').forEach(function (m) { m.classList.add('is-off'); smkObs.observe(m); });
+    smkWatch = function (m) { m.classList.add('is-off'); smkObs.observe(m); };
+    $$('.smk,.dsmk,.pend__f').forEach(smkWatch);
   }
 
   /* élő nyitvatartás percenként */
