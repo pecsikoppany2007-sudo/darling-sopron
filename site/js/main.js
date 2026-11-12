@@ -171,15 +171,51 @@
     if (b.m < mins(h[0])) return { open: false, when: 0, at: h[0] };
     return { open: false, when: 1, at: HOURS[(b.d + 1) % 7][0] };
   }
+  function dur(n) {
+    var h = Math.floor(n / 60), m = n % 60;
+    if (lang === 'hu') return (h ? h + ' óra ' : '') + m + ' perc';
+    if (lang === 'de') return (h ? h + ' Std. ' : '') + m + ' Min.';
+    return (h ? h + ' h ' : '') + m + ' min';
+  }
+  var wasOpen = null;
   function renderLive() {
-    var s = status(), el = $('#live');
+    var s = status(), el = $('#live'), b = bud(), h = HOURS[b.d];
     el.classList.toggle('is-open', s.open);
-    $('#liveTxt').textContent = s.open
+    html.classList.toggle('is-open', s.open); html.classList.toggle('is-closed', !s.open);
+    var txt = s.open
       ? L(['Most nyitva, ' + hm(s.till) + '-ig', 'Jetzt geöffnet, bis ' + hm(s.till), 'Open now, until ' + hm(s.till)])
       : L([(s.when ? 'Holnap ' : 'Ma ') + hm(s.at) + '-kor nyitunk', (s.when ? 'Morgen' : 'Heute') + ' ab ' + hm(s.at), 'Opens ' + (s.when ? 'tomorrow' : 'today') + ' at ' + hm(s.at)]);
-    var b = bud(), h = HOURS[b.d];
-    $('#heroToday').innerHTML = esc(L(['Ma', 'Heute', 'Today'])) + '<b>' + hm(h[0]) + '–' + hm(h[1]) + '</b>';
+    $('#liveTxt').textContent = txt;
+    /* ajtótábla */
+    $('#signWord').textContent = s.open ? L(['Nyitva', 'Geöffnet', 'Open']) : L(['Zárva', 'Geschlossen', 'Closed']);
+    $('#signTill').textContent = s.open ? L([hm(s.till) + '-ig', 'bis ' + hm(s.till), 'until ' + hm(s.till)]) : L([(s.when ? 'holnap ' : 'ma ') + hm(s.at) + '-kor', (s.when ? 'morgen ' : 'heute ') + hm(s.at), (s.when ? 'tomorrow ' : 'today ') + hm(s.at)]);
+    var kOpen = s.open && b.m >= 750 && b.m < 1290;
+    $('#signBk1').textContent = L(['Ma', 'Heute', 'Today']) + ' ' + hm(h[0]) + '–' + hm(h[1]);
+    $('#signBk2').textContent = L(['Konyha', 'Küche', 'Kitchen']);
+    $('#signBk3').textContent = '12:30–21:30';
+    $('#signSr').textContent = txt + '. ' + L(['Konyha 12:30–21:30.', 'Küche 12:30–21:30.', 'Kitchen 12:30–21:30.']);
+    /* élő visszaszámlálás a nyitvatartásnál */
+    var left;
+    if (s.open) { left = mins(s.till) - b.m; if (left > 1440) left -= 1440; if (left < 0) left += 1440; }
+    else { left = mins(s.at) - b.m + (s.when ? 1440 : 0); }
+    $('#visLive').innerHTML = s.open
+      ? esc(L(['Zárásig ', 'Bis zur Schließung ', 'Closing in '])) + '<b>' + esc(dur(left)) + '</b>' + (kOpen ? esc(L([' · a konyha 21:30-ig főz', ' · Küche bis 21:30', ' · kitchen until 21:30'])) : esc(L([' · a konyha már zárt, a bár nyitva', ' · Küche geschlossen, Bar offen', ' · kitchen closed, bar open'])))
+      : esc(L(['Nyitásig ', 'Wir öffnen in ', 'Opening in '])) + '<b>' + esc(dur(left)) + '</b>';
     $$('#hours tr').forEach(function (tr) { tr.classList.toggle('is-today', +tr.getAttribute('data-d') === b.d); });
+    if (wasOpen !== null && wasOpen !== s.open && ready) lightsSwitch(s.open);
+    wasOpen = s.open;
+  }
+  /* nyitáskor vibrálva felkapcsolnak, záráskor lassan lehalkulnak a kezdőkép lámpái, a tábla meglendül */
+  var DARK_CLOSED = .42;
+  function lightsSwitch(open) {
+    var dk = $('#heroDark'), sg = $('#sign');
+    if (!dk) return;
+    if (reduced || !dk.animate) { dk.style.opacity = open ? 0 : DARK_CLOSED; return; }
+    var a = open
+      ? dk.animate([{ opacity: DARK_CLOSED }, { opacity: .2, offset: .14 }, { opacity: .5, offset: .2 }, { opacity: .1, offset: .34 }, { opacity: .3, offset: .4 }, { opacity: 0 }], { duration: 1800, easing: 'linear', fill: 'forwards' })
+      : dk.animate([{ opacity: 0 }, { opacity: DARK_CLOSED }], { duration: 2600, easing: 'ease-in-out', fill: 'forwards' });
+    a.onfinish = function () { dk.style.opacity = open ? 0 : DARK_CLOSED; a.cancel(); };
+    if (sg && window.gsap) gsap.fromTo(sg, { rotation: open ? -9 : 9 }, { rotation: 0, duration: 2.6, ease: 'elastic.out(1,.28)' });
   }
   function renderHours() {
     var order = [1, 2, 3, 4, 5, 6, 0];
@@ -332,9 +368,34 @@
     if (heroDone) return; heroDone = true;
     var ht = $('#heroTitle'); ht.style.setProperty('--d', '.05s'); ht.classList.add('is-in');
     if (reduced) return;
-    gsap.from('.hero__sub, .hero__go .go, .hero__today', { y: 22, opacity: 0, duration: 1.4, stagger: .09, ease: 'expo.out', delay: .4, clearProps: 'transform,opacity' });
+    gsap.from('.hero__sub, .hero__go .go', { y: 22, opacity: 0, duration: 1.4, stagger: .09, ease: 'expo.out', delay: .4, clearProps: 'transform,opacity' });
     if (!html.classList.contains('intro-on')) gsap.fromTo('.hero__img', { scale: 1.12 }, { scale: 1.04, duration: 2.8, ease: 'expo.out' });
+
+    var dk = $('#heroDark');
+    if (!introPlayed && html.classList.contains('is-closed')) dk.animate([{ opacity: 0 }, { opacity: DARK_CLOSED }], { duration: 1600, delay: 300, easing: 'ease-in-out', fill: 'forwards' }).onfinish = function () { dk.style.opacity = DARK_CLOSED; };
+    /* a tábla leereszkedik a zsinóron és kileng */
+    var sg = $('#sign');
+    gsap.fromTo(sg, { y: -320 }, { y: 0, duration: 1.5, ease: 'expo.out', delay: .5 });
+    gsap.fromTo(sg, { rotation: 8 }, { rotation: 0, duration: 3.2, ease: 'elastic.out(1,.22)', delay: .9 });
   }
+  /* ajtótábla: kattintásra megfordul (hátoldalán a mai nyitvatartás és a konyha), egér alatt finoman meglendül */
+  var introPlayed = false;
+  (function () {
+    var sg = $('#sign'), card = $('#signCard'), tmr;
+    if (!sg) return;
+    card.addEventListener('click', function () {
+      sg.classList.toggle('is-flip'); clearTimeout(tmr);
+      if (sg.classList.contains('is-flip')) tmr = setTimeout(function () { sg.classList.remove('is-flip'); }, 6000);
+      if (!reduced && window.gsap) gsap.fromTo(sg, { rotation: sg.classList.contains('is-flip') ? -4 : 4 }, { rotation: 0, duration: 2.2, ease: 'elastic.out(1,.3)', overwrite: 'auto' });
+    });
+    if (!canHover || reduced) return;
+    var lx = null;
+    card.addEventListener('mousemove', function (e) {
+      if (lx !== null) { var v = Math.max(-1, Math.min(1, (e.clientX - lx) / 14)); if (Math.abs(v) > .15) gsap.to(sg, { rotation: -v * 5, duration: .5, ease: 'power2.out', overwrite: 'auto' }); }
+      lx = e.clientX;
+    });
+    card.addEventListener('mouseleave', function () { lx = null; gsap.to(sg, { rotation: 0, duration: 2.4, ease: 'elastic.out(1,.25)', overwrite: 'auto' }); });
+  })();
 
   var G = { ok: false, m: [0, 0], mT: [0, 0], run: false, vis: true };
   var heroEl = $('#top');
@@ -416,7 +477,10 @@
     var l1 = L(['Sopron, Várkerület 57.', 'Sopron, Várkerület 57.', 'Sopron, Várkerület 57.']);
     $('#introL1').innerHTML = l1.split('').map(function (c) { return '<b>' + (c === ' ' ? '&nbsp;' : esc(c)) + '</b>'; }).join('');
     $('#introL2').textContent = (lang === 'hu' ? L(DAYS[b.d]).toLowerCase() : L(DAYS[b.d])) + ', ' + hh + ':' + mm;
-    $('#introSub').textContent = '– ' + L(['Drágám, később hívlak…', 'Darling, ich ruf dich später an…', 'Darling, I’ll call you later…']);
+    var st = status(); introPlayed = true;
+    $('#introSub').textContent = '– ' + (st.open ? L(['Drágám, később hívlak…', 'Darling, ich ruf dich später an…', 'Darling, I’ll call you later…'])
+      : st.when ? L(['Drágám, mára bezártunk. Holnap hívlak…', 'Darling, für heute ist zu. Ich ruf dich morgen an…', 'Darling, we’re closed for tonight. I’ll call you tomorrow…'])
+      : L(['Drágám, még zárva vagyunk. ' + hm(st.at) + '-kor hívlak…', 'Darling, noch ist zu. Ich ruf dich um ' + hm(st.at) + ' an…', 'Darling, we’re not open yet. I’ll call you at ' + hm(st.at) + '…']));
     $('#introSkip').textContent = canHover ? L(['Kattints a kihagyáshoz', 'Klicken zum Überspringen', 'Click to skip']) : L(['Koppints a kihagyáshoz', 'Tippen zum Überspringen', 'Tap to skip']);
     var anims = [], timers = [], finished = false;
     function A(el, kf, o) { var a = el.animate(kf, Object.assign({ fill: 'both' }, o)); anims.push(a); return a; }
@@ -447,7 +511,7 @@
     A($('.intro__seam'), [{ opacity: 1 }, { opacity: 0 }], { duration: 500, delay: t4, easing: 'ease-out', fill: 'forwards' });
     T(function () {
       gsap.to(hi, { scale: 1.04, duration: 3.4, ease: 'expo.out' });
-      dk.animate([{ opacity: .9 }, { opacity: .55, offset: .14 }, { opacity: .85, offset: .2 }, { opacity: .35, offset: .34 }, { opacity: .6, offset: .4 }, { opacity: 0 }], { duration: 2200, delay: 350, easing: 'linear', fill: 'forwards' }).onfinish = function () { dk.style.opacity = 0; };
+      var dEnd = st.open ? 0 : DARK_CLOSED; dk.animate([{ opacity: .9 }, { opacity: .55, offset: .14 }, { opacity: .85, offset: .2 }, { opacity: .35 + dEnd * .5, offset: .34 }, { opacity: .6, offset: .4 }, { opacity: dEnd }], { duration: 2200, delay: 350, easing: 'linear', fill: 'forwards' }).onfinish = function () { dk.style.opacity = dEnd; };
     }, t4);
     /* 5. a mozivászon csíkjai elhúzódnak */
     A($('.intro__bar--t'), [{ transform: 'none' }, { transform: 'translateY(-101%)' }], { duration: 1300, delay: t4 + 1300, easing: IO });
@@ -801,7 +865,7 @@
   }
 
   /* élő nyitvatartás percenként */
-  setInterval(renderLive, 60000);
+  setInterval(renderLive, 20000);
 
   /* újraméretezés: csak szélességváltozásra vagy nagy magasságváltozásra */
   var rw = innerWidth, rh = innerHeight;
