@@ -41,7 +41,7 @@ ul{list-style:none;padding:0}
 .sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .skip{position:fixed;left:12px;top:-60px;z-index:200;background:var(--cream);color:var(--ink);padding:10px 14px}
 .skip:focus{top:12px}
-html.lang-pending body{opacity:0}
+html.lang-pending [data-i18n]{visibility:hidden}
 .ul{background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;transition:background-size .3s var(--ease)}
 .ul:hover{background-size:0 1px;background-position:100% 100%}
 .mono{font:400 .72rem/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase}
@@ -50,6 +50,7 @@ html.lang-pending body{opacity:0}
 .intro{display:none;position:fixed;inset:0;z-index:120;color:var(--cream);overflow:hidden}
 html.intro-on .intro{display:block}
 html.no-intro .intro{display:none}
+html.intro-hold main>section:not(.hero),html.intro-hold .ft{display:none}
 .intro__half{position:absolute;top:0;bottom:0;width:50.5%;background:#030504;will-change:transform}
 .intro__half--l{left:0;background:radial-gradient(90% 70% at 100% 52%,#0a0f0c,#030504 70%)}
 .intro__half--r{right:0;background:radial-gradient(90% 70% at 0 52%,#0a0f0c,#030504 70%)}
@@ -133,7 +134,7 @@ html.no-intro .intro{display:none}
 .pend svg{position:absolute;left:0;bottom:0;width:50px;height:25px;overflow:visible}
 .pend__s{fill:#0d1511;stroke:var(--gold2);stroke-width:1}
 .pend__b{position:absolute;left:50%;bottom:-5px;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;background:#fff0c8;box-shadow:0 0 14px 5px rgba(var(--warm),.55),0 0 60px 26px rgba(var(--warm),.12);opacity:0}
-.pend__c{position:absolute;left:50%;top:calc(100% - 8px);width:min(96vw,780px);height:min(66vh,540px);margin-left:max(-48vw,-390px);background:url(../img/deco-lit.png?v=8) 0 0/120px 60px,conic-gradient(from 148deg at 50% 0,rgba(var(--warm),0) 0deg,rgba(var(--warm),.07) 14deg,rgba(var(--warm),.15) 28deg,rgba(var(--warm),.17) 32deg,rgba(var(--warm),.15) 36deg,rgba(var(--warm),.07) 50deg,rgba(var(--warm),0) 64deg,rgba(var(--warm),0) 360deg);-webkit-mask-image:conic-gradient(from 148deg at 50% 0,rgba(0,0,0,0) 0deg,#000 22deg,#000 42deg,rgba(0,0,0,0) 64deg,rgba(0,0,0,0) 360deg),radial-gradient(ellipse 36% 100% at 50% 0,#000 0,rgba(0,0,0,.7) 38%,rgba(0,0,0,.28) 68%,rgba(0,0,0,0) 100%);-webkit-mask-composite:source-in;mask-image:conic-gradient(from 148deg at 50% 0,rgba(0,0,0,0) 0deg,#000 22deg,#000 42deg,rgba(0,0,0,0) 64deg,rgba(0,0,0,0) 360deg),radial-gradient(ellipse 36% 100% at 50% 0,#000 0,rgba(0,0,0,.7) 38%,rgba(0,0,0,.28) 68%,rgba(0,0,0,0) 100%);mask-composite:intersect;opacity:0;z-index:-1}
+.pend__c{position:absolute;left:50%;top:calc(100% - 8px);width:min(96vw,780px);height:min(66vh,540px);margin-left:max(-48vw,-390px);background:url(../img/deco-lit.png?v=9) 0 0/120px 60px,conic-gradient(from 148deg at 50% 0,rgba(var(--warm),0) 0deg,rgba(var(--warm),.07) 14deg,rgba(var(--warm),.15) 28deg,rgba(var(--warm),.17) 32deg,rgba(var(--warm),.15) 36deg,rgba(var(--warm),.07) 50deg,rgba(var(--warm),0) 64deg,rgba(var(--warm),0) 360deg);-webkit-mask-image:conic-gradient(from 148deg at 50% 0,rgba(0,0,0,0) 0deg,#000 22deg,#000 42deg,rgba(0,0,0,0) 64deg,rgba(0,0,0,0) 360deg),radial-gradient(ellipse 36% 100% at 50% 0,#000 0,rgba(0,0,0,.7) 38%,rgba(0,0,0,.28) 68%,rgba(0,0,0,0) 100%);-webkit-mask-composite:source-in;mask-image:conic-gradient(from 148deg at 50% 0,rgba(0,0,0,0) 0deg,#000 22deg,#000 42deg,rgba(0,0,0,0) 64deg,rgba(0,0,0,0) 360deg),radial-gradient(ellipse 36% 100% at 50% 0,#000 0,rgba(0,0,0,.7) 38%,rgba(0,0,0,.28) 68%,rgba(0,0,0,0) 100%);mask-composite:intersect;opacity:0;z-index:-1}
 .pend.is-lit .pend__b,.pend.is-lit .pend__c{animation:lampOn 1.3s linear both}
 .pend.is-lit .pend__c{animation-delay:.05s}
 @keyframes lampOn{0%{opacity:0}7%{opacity:.85}11%{opacity:.08}19%{opacity:.7}23%{opacity:.15}36%{opacity:1}100%{opacity:1}}
@@ -178,8 +179,8 @@ html.no-anim .bl .ln__i{transform:none}
 .about{background:var(--ink)}
 .about__in{max-width:1500px;margin:0 auto}
 .lede{font:300 clamp(1.45rem,2.45vw,2.45rem)/1.24 var(--serif);letter-spacing:.002em;max-width:25em;text-wrap:pretty}
-.lede .wd{opacity:.16;transition:opacity .6s,text-shadow .6s}
-.lede .wd.on{opacity:1}
+.lede .wd{color:var(--dim);transition:color .6s,text-shadow .6s}
+.lede .wd.on{color:var(--cream);text-shadow:0 0 18px rgba(var(--warm),.18)}
 .about__pics{display:grid;grid-template-columns:1.5fr .78fr 1.5fr;gap:clamp(14px,1.8vw,30px);margin-top:clamp(60px,10vh,120px);align-items:end}
 .about__pics .ph__in{height:clamp(220px,25vw,470px)}
 .about__pics .ph--c .ph__in{height:clamp(270px,31vw,580px)}
@@ -356,6 +357,7 @@ html.touch .dial__hint{display:none}
 main{position:relative;z-index:1;background:var(--ink)}
 .ft{position:relative;background:radial-gradient(50% 60% at 50% 0,rgba(var(--warm),.08),rgba(var(--warm),0) 70%),var(--night);color:var(--cream);overflow:hidden}
 @media (min-height:760px){.ft{position:sticky;bottom:0;z-index:0}}
+html.ft-wait .ft{visibility:hidden}
 .ft__in{padding:clamp(70px,12vh,130px) var(--pad) 40px;display:flex;flex-direction:column;align-items:center;text-align:center}
 .ft__logo{width:clamp(96px,10vw,140px);height:auto}
 .ft__big{margin-top:24px;font:300 clamp(2rem,4.6vw,4.4rem)/1 var(--serif)}
@@ -384,18 +386,18 @@ html.cur-on,html.cur-on a,html.cur-on button,html.cur-on .dial__hole{cursor:none
 .wall{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
 .wall__spot{position:absolute;left:0;top:0;width:640px;height:640px;opacity:0;transition:opacity .5s;will-change:transform;-webkit-mask-image:radial-gradient(closest-side,#000 0,rgba(0,0,0,.55) 45%,rgba(0,0,0,0) 100%);mask-image:radial-gradient(closest-side,#000 0,rgba(0,0,0,.55) 45%,rgba(0,0,0,0) 100%)}
 .wall__spot.is-on{opacity:.5}
-.wall__pat{position:absolute;inset:0;background:url(../img/deco-lit.png?v=8) 0 0/120px 60px}
+.wall__pat{position:absolute;inset:0;background:url(../img/deco-lit.png?v=9) 0 0/120px 60px}
 /* füst a lámpák fényében: gépen élő WebGL (#smoke), máshol álló füstkép a kúpban */
 /* nagy képernyő hardveres GPU nélkül: csak a kezdőkép halvány párája marad, hogy a görgetés sima legyen */
 html.lite-smoke .dsmk{display:none}
-html.desk .pend__c::after{content:"";position:absolute;inset:0;background:url(../img/smoke.webp?v=8) 50% 0/100% 100% no-repeat;opacity:.4}
+html.desk .pend__c::after{content:"";position:absolute;inset:0;background:url(../img/smoke.webp?v=9) 50% 0/100% 100% no-repeat;opacity:.4}
 html.gl-smoke .pend__c::after{display:none}
 .smoke{position:fixed;left:0;top:0;width:100%;height:100vh;height:100lvh;pointer-events:none;z-index:45;display:none}
 html.gl-smoke .smoke{display:block}
 html.intro-on .smoke{z-index:121}
 html.gl-smoke .intro__smk,html.gl-smoke .dsmk{display:none}
 .smk{position:absolute;left:0;right:0;bottom:0;height:34%;pointer-events:none;overflow:hidden}
-.smk i{position:absolute;left:0;top:0;bottom:0;width:200%;background:url(../img/smoke-band.webp?v=8) 0 100%/50% 100% repeat-x;opacity:.15;animation:smk 120s linear infinite;will-change:transform}
+.smk i{position:absolute;left:0;top:0;bottom:0;width:200%;background:url(../img/smoke-band-s.webp?v=9) 0 100%/50% 100% repeat-x;opacity:.15;animation:smk 120s linear infinite;will-change:transform}
 .smk i+i{opacity:.08;animation-name:smk2;animation-duration:180s}
 @keyframes smk{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
 @keyframes smk2{from{transform:translate3d(-50%,0,0) scaleY(-1)}to{transform:translate3d(0,0,0) scaleY(-1)}}
@@ -404,12 +406,12 @@ html.gl-smoke .intro__smk,html.gl-smoke .dsmk{display:none}
 html.no-anim .smk i{animation:none}
 .bar__deck{isolation:isolate}
 .dsmk{position:absolute;left:-42%;right:-42%;top:-12%;bottom:-16%;z-index:-1;pointer-events:none}
-.dsmk i{position:absolute;inset:0;background:url(../img/fust-pult-1.webp?v=8) center/100% 100% no-repeat;opacity:.8;animation:dDrift 16s ease-in-out infinite alternate}
-.dsmk i+i{background-image:url(../img/fust-pult-2.webp?v=8);opacity:1;animation:dDrift2 21s ease-in-out infinite alternate,dFade 11s ease-in-out infinite alternate}
+.dsmk i{position:absolute;inset:0;background:url(../img/fust-pult-1.webp?v=9) center/100% 100% no-repeat;opacity:.8;animation:dDrift 16s ease-in-out infinite alternate}
+.dsmk i+i{background-image:url(../img/fust-pult-2.webp?v=9);opacity:1;animation:dDrift2 21s ease-in-out infinite alternate,dFade 11s ease-in-out infinite alternate}
 .dsmk.is-off i{animation-play-state:paused;will-change:auto}
 html.no-anim .dsmk i{animation:none}
 .intro__smk{position:absolute;inset:0;z-index:2;opacity:0;pointer-events:none;overflow:hidden;-webkit-mask-image:radial-gradient(48% 60% at 50% 56%,#000 0,rgba(0,0,0,.5) 55%,rgba(0,0,0,0) 100%);mask-image:radial-gradient(48% 60% at 50% 56%,#000 0,rgba(0,0,0,.5) 55%,rgba(0,0,0,0) 100%)}
-.intro__smk i{position:absolute;left:0;top:8%;bottom:4%;width:200%;background:url(../img/smoke-band.webp?v=8) 0 50%/50% 100% repeat-x;opacity:.55;animation:smk 38s linear infinite}
+.intro__smk i{position:absolute;left:0;top:8%;bottom:4%;width:200%;background:url(../img/smoke-band-s.webp?v=9) 0 50%/50% 100% repeat-x;opacity:.55;animation:smk 38s linear infinite}
 .intro__smk i+i{opacity:.32;animation-name:smk2;animation-duration:55s}
 .smk.is-off i{animation-play-state:paused;will-change:auto}
 
@@ -468,8 +470,8 @@ html.no-anim .dsmk i{animation:none}
 /* álló füstkép a lámpakúpban: csak érintőn és kis képernyőn (gépen WebGL füst van) */
 @media (hover:none),(pointer:coarse),(max-width:1023px){
 .pend__f{position:absolute;left:50%;top:calc(100% - 8px);width:min(96vw,780px);height:min(66vh,540px);margin-left:max(-48vw,-390px);z-index:-1;opacity:0;pointer-events:none}
-.pend__f::before,.pend__f::after{content:"";position:absolute;inset:0;background:url(../img/fust-kup-1.webp?v=8) 50% 0/100% 100% no-repeat;transform-origin:50% 0;animation:fDrift 13s ease-in-out infinite alternate}
-.pend__f::after{background-image:url(../img/fust-kup-2.webp?v=8);animation:fDrift2 17s ease-in-out infinite alternate,fFade 9s ease-in-out infinite alternate}
+.pend__f::before,.pend__f::after{content:"";position:absolute;inset:0;background:url(../img/fust-kup-1.webp?v=9) 50% 0/100% 100% no-repeat;transform-origin:50% 0;animation:fDrift 13s ease-in-out infinite alternate}
+.pend__f::after{background-image:url(../img/fust-kup-2.webp?v=9);animation:fDrift2 17s ease-in-out infinite alternate,fFade 9s ease-in-out infinite alternate}
 @keyframes fDrift{from{transform:translate3d(-1.2%,0,0) scale(1)}to{transform:translate3d(1.2%,-2%,0) scale(1.05)}}
 @keyframes fDrift2{from{transform:translate3d(1.2%,-1%,0) scale(1.04)}to{transform:translate3d(-1.2%,1%,0) scale(1)}}
 @keyframes fFade{from{opacity:.12}to{opacity:1}}
