@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Impresszum és adatkezelés · Darling, I’ll call you later…</title>
+<meta name="description" content="A Darling, I’ll call you later… (Sopron, Várkerület 57.) impresszuma és adatkezelési tájékoztatója.">
 <meta name="robots" content="noindex">
-<link rel="icon" href="img/favicon.svg?v=8" type="image/svg+xml">
-<link rel="stylesheet" href="css/style.css?v=8">
+<link rel="icon" href="img/favicon.svg?v=9" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css?v=9">
 <style>
 body{background:var(--ink)}
 .lg{max-width:780px;margin:0 auto;padding:120px var(--pad) 100px}
@@ -20,18 +21,19 @@ body{background:var(--ink)}
 </style>
 </head>
 <body>
-<a class="back" href="index.html">← Vissza a főoldalra / Zurück / Back</a>
+<a class="back" href="index.html">← Vissza a főoldalra</a>
 <main class="lg">
-<h1>Impresszum és adatkezelés</h1>
+<h1 id="lgH">Impresszum és adatkezelés</h1>
+<section lang="hu" data-sec="hu">
 
 <h2>Szolgáltató</h2>
 <p>Név: SZMT GROUP Kft.<br>
-Székhely: 9400 Sopron, Deákkúti út 16/A<br>
+Székhely: 9400 Sopron, Deákkúti út 16/A 2. em. 7.<br>
 Üzlet: Darling, I’ll call you later…, 9400 Sopron, Várkerület 57.<br>
 Telefon: <a href="tel:+36707426894">06 70 742 6894</a><br>
 E-mail: <a href="mailto:darlingsopron@gmail.com">darlingsopron@gmail.com</a><br>
-Cégjegyzékszám: <span class="todo">[kitöltendő]</span><br>
-Adószám: <span class="todo">[kitöltendő]</span></p>
+Cégjegyzékszám: 08-09-032575 (Győri Törvényszék Cégbírósága)<br>
+Adószám: 28964227-2-08</p>
 
 <h2>Tárhelyszolgáltató</h2>
 <p>Netlify, Inc., 101 2nd Street, San Francisco, CA 94105, USA · <a href="mailto:privacy@netlify.com">privacy@netlify.com</a> · <a href="https://www.netlify.com" target="_blank" rel="noopener">netlify.com</a></p>
@@ -46,11 +48,23 @@ Adószám: <span class="todo">[kitöltendő]</span></p>
 <li>Panasz esetén a Nemzeti Adatvédelmi és Információszabadság Hatósághoz fordulhatsz: 1055 Budapest, Falk Miksa u. 9–11., +36 1 391 1400, <a href="mailto:ugyfelszolgalat@naih.hu">ugyfelszolgalat@naih.hu</a>.</li>
 </ul>
 
-<h2 lang="de">Impressum und Datenschutz (Kurzfassung)</h2>
-<p lang="de">Betreiber: SZMT GROUP Kft., 9400 Sopron, Deákkúti út 16/A. Die Seite setzt keine Cookies und erhebt keine personenbezogenen Daten. Die Google-Karte wird erst nach einem Klick geladen. Online-Bestellungen laufen über Waiterio, Wolt und foodora. Hosting: Netlify, Inc.</p>
+</section>
+<section lang="de" data-sec="de">
+<h2>Impressum und Datenschutz (Kurzfassung)</h2>
+<p>Betreiber: SZMT GROUP Kft., 9400 Sopron, Deákkúti út 16/A. Die Seite setzt keine Cookies und erhebt keine personenbezogenen Daten. Die Google-Karte wird erst nach einem Klick geladen. Online-Bestellungen laufen über Waiterio, Wolt und foodora. Hosting: Netlify, Inc.</p>
 
-<h2 lang="en">Legal notice and privacy (summary)</h2>
-<p lang="en">Operator: SZMT GROUP Kft., 9400 Sopron, Deákkúti út 16/A. This site sets no cookies and collects no personal data. The Google map loads only after you click it. Online orders go through Waiterio, Wolt and foodora. Hosting: Netlify, Inc.</p>
+</section>
+<section lang="en" data-sec="en">
+<h2>Legal notice and privacy (summary)</h2>
+<p>Operator: SZMT GROUP Kft., 9400 Sopron, Deákkúti út 16/A. This site sets no cookies and collects no personal data. The Google map loads only after you click it. Online orders go through Waiterio, Wolt and foodora. Hosting: Netlify, Inc.</p>
+</section>
 </main>
+<script>
+(function(){var l="hu";try{l=localStorage.getItem("dl-lang")||"hu"}catch(e){}if(l!=="de"&&l!=="en")return;
+var H={de:["Impressum und Datenschutz","← Zurück zur Startseite","Impressum und Datenschutz · Darling, I’ll call you later…"],en:["Legal notice and privacy","← Back to the home page","Legal notice and privacy · Darling, I’ll call you later…"]}[l];
+document.documentElement.lang=l;document.title=H[2];var h=document.getElementById("lgH");h.textContent=H[0];
+var sec=document.querySelector("[data-sec="+l+"]");h.after(sec);document.querySelector(".back").textContent=H[1];
+document.querySelector("[data-sec=hu]").insertAdjacentHTML("afterbegin","<p lang=\""+l+"\" style=\"margin-top:48px\">"+(l==="de"?"Vollständige Fassung auf Ungarisch:":"Full version in Hungarian:")+"</p>");})();
+</script>
 </body>
 </html>

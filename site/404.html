@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Téves kapcsolás · Darling, I’ll call you later…</title>
+<meta name="description" content="Ez az oldal nem létezik. Vissza a Darling főoldalára, Sopron, Várkerület 57.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0d1411">
+<link rel="icon" href="/img/favicon.svg?v=9" type="image/svg+xml">
+<link rel="stylesheet" href="/css/style.css?v=9">
+<style>
+.nf{min-height:100vh;min-height:100svh;display:grid;place-items:center;text-align:center;padding:80px var(--pad);position:relative;isolation:isolate;overflow:hidden}
+.nf::before{content:"";position:absolute;left:50%;top:0;width:min(760px,140vw);height:78%;transform:translateX(-50%);z-index:-1;background:conic-gradient(from 148deg at 50% 0,transparent 0deg,rgba(255,210,140,.07) 12deg,rgba(255,210,140,.15) 26deg,rgba(255,210,140,.17) 32deg,rgba(255,210,140,.15) 38deg,rgba(255,210,140,.07) 52deg,transparent 64deg);-webkit-mask:radial-gradient(ellipse 36% 100% at 50% 0,#000,rgba(0,0,0,.7) 38%,rgba(0,0,0,.28) 68%,transparent);mask:radial-gradient(ellipse 36% 100% at 50% 0,#000,rgba(0,0,0,.7) 38%,rgba(0,0,0,.28) 68%,transparent);animation:nfOn 1.6s steps(1) .3s both}
+.nf__logo{width:54px;height:auto;margin:0 auto 34px;opacity:.9}
+.nf__k{font:300 .7rem/1.6 var(--mono);letter-spacing:.3em;text-transform:uppercase;color:var(--cream2);margin:0 0 18px}
+.nf h1{font:300 clamp(2.4rem,7vw,4.6rem)/1 var(--serif);letter-spacing:-.01em;margin:0 0 18px}
+.nf__s{font:italic 400 clamp(1.1rem,2vw,1.4rem)/1.4 var(--ital);color:var(--cream2);margin:0 auto 40px;max-width:30ch}
+@keyframes nfOn{0%{opacity:0}8%{opacity:1}12%{opacity:.2}20%{opacity:1}26%{opacity:.4}34%,100%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.nf::before{animation:none}}
+</style>
+</head>
+<body>
+<main class="nf">
+  <div>
+    <img class="nf__logo" src="/img/logo.svg?v=9" alt="" width="180" height="227">
+    <p class="nf__k" id="k">404 · téves kapcsolás</p>
+    <h1 id="h">Ez a szám nem él.</h1>
+    <p class="nf__s" id="s">Lehet, hogy elírtad, vagy a lap már nincs meg. A főoldalon minden ott van, ahol hagytad.</p>
+    <a class="go" href="/"><span id="b">Vissza a főoldalra</span><i class="go__ar" aria-hidden="true"></i></a>
+  </div>
+</main>
+<script>
+(function(){var l="hu";try{l=localStorage.getItem("dl-lang")||"hu"}catch(e){}
+var T={de:["404 · falsch verbunden","Diese Nummer ist nicht vergeben.","Vielleicht ein Tippfehler, oder die Seite gibt es nicht mehr. Auf der Startseite ist alles, wo Sie es gelassen haben.","Zur Startseite","Falsch verbunden · Darling, I’ll call you later…"],
+en:["404 · wrong number","This number is not in service.","Maybe a typo, or the page is gone. Everything is still on the home page, right where you left it.","Back to the home page","Wrong number · Darling, I’ll call you later…"]}[l];
+if(!T)return;document.documentElement.lang=l;["k","h","s","b"].forEach(function(id,i){document.getElementById(id).textContent=T[i]});document.title=T[4];})();
+</script>
+</body>
+</html>
