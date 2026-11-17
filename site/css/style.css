@@ -134,7 +134,7 @@ html.intro-hold main>section:not(.hero),html.intro-hold .ft{display:none}
 .pend svg{position:absolute;left:0;bottom:0;width:50px;height:25px;overflow:visible}
 .pend__s{fill:#0d1511;stroke:var(--gold2);stroke-width:1}
 .pend__b{position:absolute;left:50%;bottom:-5px;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;background:#fff0c8;box-shadow:0 0 14px 5px rgba(var(--warm),.55),0 0 60px 26px rgba(var(--warm),.12);opacity:0}
-.pend__c{position:absolute;left:50%;top:calc(100% - 8px);width:min(96vw,780px);height:min(66vh,540px);margin-left:max(-48vw,-390px);background:url(../img/deco-lit.png?v=9) 0 0/120px 60px,conic-gradient(from 148deg at 50% 0,rgba(var(--warm),0) 0deg,rgba(var(--warm),.07) 14deg,rgba(var(--warm),.15) 28deg,rgba(var(--warm),.17) 32deg,rgba(var(--warm),.15) 36deg,rgba(var(--warm),.07) 50deg,rgba(var(--warm),0) 64deg,rgba(var(--warm),0) 360deg);-webkit-mask-image:conic-gradient(from 148deg at 50% 0,rgba(0,0,0,0) 0deg,#000 22deg,#000 42deg,rgba(0,0,0,0) 64deg,rgba(0,0,0,0) 360deg),radial-gradient(ellipse 36% 100% at 50% 0,#000 0,rgba(0,0,0,.7) 38%,rgba(0,0,0,.28) 68%,rgba(0,0,0,0) 100%);-webkit-mask-composite:source-in;mask-image:conic-gradient(from 148deg at 50% 0,rgba(0,0,0,0) 0deg,#000 22deg,#000 42deg,rgba(0,0,0,0) 64deg,rgba(0,0,0,0) 360deg),radial-gradient(ellipse 36% 100% at 50% 0,#000 0,rgba(0,0,0,.7) 38%,rgba(0,0,0,.28) 68%,rgba(0,0,0,0) 100%);mask-composite:intersect;opacity:0;z-index:-1}
+.pend__c{position:absolute;left:50%;top:calc(100% - 8px);width:min(96vw,780px);height:min(66vh,540px);margin-left:max(-48vw,-390px);background:url(../img/deco-lit.png?v=10) 0 0/120px 60px,conic-gradient(from 148deg at 50% 0,rgba(var(--warm),0) 0deg,rgba(var(--warm),.07) 14deg,rgba(var(--warm),.15) 28deg,rgba(var(--warm),.17) 32deg,rgba(var(--warm),.15) 36deg,rgba(var(--warm),.07) 50deg,rgba(var(--warm),0) 64deg,rgba(var(--warm),0) 360deg);-webkit-mask-image:conic-gradient(from 148deg at 50% 0,rgba(0,0,0,0) 0deg,#000 22deg,#000 42deg,rgba(0,0,0,0) 64deg,rgba(0,0,0,0) 360deg),radial-gradient(ellipse 36% 100% at 50% 0,#000 0,rgba(0,0,0,.7) 38%,rgba(0,0,0,.28) 68%,rgba(0,0,0,0) 100%);-webkit-mask-composite:source-in;mask-image:conic-gradient(from 148deg at 50% 0,rgba(0,0,0,0) 0deg,#000 22deg,#000 42deg,rgba(0,0,0,0) 64deg,rgba(0,0,0,0) 360deg),radial-gradient(ellipse 36% 100% at 50% 0,#000 0,rgba(0,0,0,.7) 38%,rgba(0,0,0,.28) 68%,rgba(0,0,0,0) 100%);mask-composite:intersect;opacity:0;z-index:-1}
 .pend.is-lit .pend__b,.pend.is-lit .pend__c{animation:lampOn 1.3s linear both}
 .pend.is-lit .pend__c{animation-delay:.05s}
 @keyframes lampOn{0%{opacity:0}7%{opacity:.85}11%{opacity:.08}19%{opacity:.7}23%{opacity:.15}36%{opacity:1}100%{opacity:1}}
@@ -386,18 +386,18 @@ html.cur-on,html.cur-on a,html.cur-on button,html.cur-on .dial__hole{cursor:none
 .wall{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
 .wall__spot{position:absolute;left:0;top:0;width:640px;height:640px;opacity:0;transition:opacity .5s;will-change:transform;-webkit-mask-image:radial-gradient(closest-side,#000 0,rgba(0,0,0,.55) 45%,rgba(0,0,0,0) 100%);mask-image:radial-gradient(closest-side,#000 0,rgba(0,0,0,.55) 45%,rgba(0,0,0,0) 100%)}
 .wall__spot.is-on{opacity:.5}
-.wall__pat{position:absolute;inset:0;background:url(../img/deco-lit.png?v=9) 0 0/120px 60px}
+.wall__pat{position:absolute;inset:0;background:url(../img/deco-lit.png?v=10) 0 0/120px 60px}
 /* füst a lámpák fényében: gépen élő WebGL (#smoke), máshol álló füstkép a kúpban */
 /* nagy képernyő hardveres GPU nélkül: csak a kezdőkép halvány párája marad, hogy a görgetés sima legyen */
 html.lite-smoke .dsmk{display:none}
-html.desk .pend__c::after{content:"";position:absolute;inset:0;background:url(../img/smoke.webp?v=9) 50% 0/100% 100% no-repeat;opacity:.4}
+html.desk .pend__c::after{content:"";position:absolute;inset:0;background:url(../img/smoke.webp?v=10) 50% 0/100% 100% no-repeat;opacity:.4}
 html.gl-smoke .pend__c::after{display:none}
 .smoke{position:fixed;left:0;top:0;width:100%;height:100vh;height:100lvh;pointer-events:none;z-index:45;display:none}
 html.gl-smoke .smoke{display:block}
 html.intro-on .smoke{z-index:121}
 html.gl-smoke .intro__smk,html.gl-smoke .dsmk{display:none}
 .smk{position:absolute;left:0;right:0;bottom:0;height:34%;pointer-events:none;overflow:hidden}
-.smk i{position:absolute;left:0;top:0;bottom:0;width:200%;background:url(../img/smoke-band-s.webp?v=9) 0 100%/50% 100% repeat-x;opacity:.15;animation:smk 120s linear infinite;will-change:transform}
+.smk i{position:absolute;left:0;top:0;bottom:0;width:200%;background:url(../img/smoke-band-s.webp?v=10) 0 100%/50% 100% repeat-x;opacity:.15;animation:smk 120s linear infinite;will-change:transform}
 .smk i+i{opacity:.08;animation-name:smk2;animation-duration:180s}
 @keyframes smk{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
 @keyframes smk2{from{transform:translate3d(-50%,0,0) scaleY(-1)}to{transform:translate3d(0,0,0) scaleY(-1)}}
@@ -406,12 +406,12 @@ html.gl-smoke .intro__smk,html.gl-smoke .dsmk{display:none}
 html.no-anim .smk i{animation:none}
 .bar__deck{isolation:isolate}
 .dsmk{position:absolute;left:-42%;right:-42%;top:-12%;bottom:-16%;z-index:-1;pointer-events:none}
-.dsmk i{position:absolute;inset:0;background:url(../img/fust-pult-1.webp?v=9) center/100% 100% no-repeat;opacity:.8;animation:dDrift 16s ease-in-out infinite alternate}
-.dsmk i+i{background-image:url(../img/fust-pult-2.webp?v=9);opacity:1;animation:dDrift2 21s ease-in-out infinite alternate,dFade 11s ease-in-out infinite alternate}
+.dsmk i{position:absolute;inset:0;background:url(../img/fust-pult-1.webp?v=10) center/100% 100% no-repeat;opacity:.8;animation:dDrift 16s ease-in-out infinite alternate}
+.dsmk i+i{background-image:url(../img/fust-pult-2.webp?v=10);opacity:1;animation:dDrift2 21s ease-in-out infinite alternate,dFade 11s ease-in-out infinite alternate}
 .dsmk.is-off i{animation-play-state:paused;will-change:auto}
 html.no-anim .dsmk i{animation:none}
 .intro__smk{position:absolute;inset:0;z-index:2;opacity:0;pointer-events:none;overflow:hidden;-webkit-mask-image:radial-gradient(48% 60% at 50% 56%,#000 0,rgba(0,0,0,.5) 55%,rgba(0,0,0,0) 100%);mask-image:radial-gradient(48% 60% at 50% 56%,#000 0,rgba(0,0,0,.5) 55%,rgba(0,0,0,0) 100%)}
-.intro__smk i{position:absolute;left:0;top:8%;bottom:4%;width:200%;background:url(../img/smoke-band-s.webp?v=9) 0 50%/50% 100% repeat-x;opacity:.55;animation:smk 38s linear infinite}
+.intro__smk i{position:absolute;left:0;top:8%;bottom:4%;width:200%;background:url(../img/smoke-band-s.webp?v=10) 0 50%/50% 100% repeat-x;opacity:.55;animation:smk 38s linear infinite}
 .intro__smk i+i{opacity:.32;animation-name:smk2;animation-duration:55s}
 .smk.is-off i{animation-play-state:paused;will-change:auto}
 
@@ -470,8 +470,8 @@ html.no-anim .dsmk i{animation:none}
 /* álló füstkép a lámpakúpban: csak érintőn és kis képernyőn (gépen WebGL füst van) */
 @media (hover:none),(pointer:coarse),(max-width:1023px){
 .pend__f{position:absolute;left:50%;top:calc(100% - 8px);width:min(96vw,780px);height:min(66vh,540px);margin-left:max(-48vw,-390px);z-index:-1;opacity:0;pointer-events:none}
-.pend__f::before,.pend__f::after{content:"";position:absolute;inset:0;background:url(../img/fust-kup-1.webp?v=9) 50% 0/100% 100% no-repeat;transform-origin:50% 0;animation:fDrift 13s ease-in-out infinite alternate}
-.pend__f::after{background-image:url(../img/fust-kup-2.webp?v=9);animation:fDrift2 17s ease-in-out infinite alternate,fFade 9s ease-in-out infinite alternate}
+.pend__f::before,.pend__f::after{content:"";position:absolute;inset:0;background:url(../img/fust-kup-1.webp?v=10) 50% 0/100% 100% no-repeat;transform-origin:50% 0;animation:fDrift 13s ease-in-out infinite alternate}
+.pend__f::after{background-image:url(../img/fust-kup-2.webp?v=10);animation:fDrift2 17s ease-in-out infinite alternate,fFade 9s ease-in-out infinite alternate}
 @keyframes fDrift{from{transform:translate3d(-1.2%,0,0) scale(1)}to{transform:translate3d(1.2%,-2%,0) scale(1.05)}}
 @keyframes fDrift2{from{transform:translate3d(1.2%,-1%,0) scale(1.04)}to{transform:translate3d(-1.2%,1%,0) scale(1)}}
 @keyframes fFade{from{opacity:.12}to{opacity:1}}
@@ -481,3 +481,19 @@ html.no-anim .pend .pend__f{opacity:.45;animation:none}html.no-anim .pend__f::be
 .pend__f.is-off::before,.pend__f.is-off::after{animation-play-state:paused}
 html.gl-smoke .pend__f{display:none}
 }
+/* hang kapcsoló: izzószál-hullám. Ki: lapos, halvány vonal. Be: meleg fényű, lassan lélegző hullám */
+.hd__r{display:flex;align-items:center;gap:22px}
+.snd{display:inline-flex;align-items:center;gap:10px;padding:6px 2px;font:300 .66rem/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--dim);transition:color .3s}
+.snd:hover,.snd[aria-pressed=true]{color:var(--cream)}
+.snd__w{display:flex;align-items:center;gap:2px;height:12px}
+.snd__w i{display:block;width:1.5px;height:2px;border-radius:1px;background:currentColor;opacity:.7;transition:height .5s var(--ease),background .4s,box-shadow .4s}
+.snd[aria-pressed=true] .snd__w i{background:#ffd890;opacity:1;box-shadow:0 0 5px rgba(var(--warm),.75);animation:sndW 1.6s ease-in-out infinite alternate}
+.snd[aria-pressed=true] .snd__w i:nth-child(2){animation-delay:-.4s;animation-duration:1.3s}
+.snd[aria-pressed=true] .snd__w i:nth-child(3){animation-delay:-.9s;animation-duration:1.9s}
+.snd[aria-pressed=true] .snd__w i:nth-child(4){animation-delay:-.2s;animation-duration:1.45s}
+.snd[aria-pressed=true] .snd__w i:nth-child(5){animation-delay:-1.1s;animation-duration:1.7s}
+@keyframes sndW{0%{height:3px}50%{height:9px}100%{height:5px}}
+.snd--m{width:28px;height:40px;justify-content:center;padding:0}
+.snd--m .snd__w{height:14px}
+html.no-snd .snd{display:none}
+@media (prefers-reduced-motion:reduce){.snd[aria-pressed=true] .snd__w i{animation:none;height:7px}}

@@ -4,6 +4,8 @@
   'use strict';
   var html = document.documentElement;
   window.__dl = 1;
+  /* hangkulissza: csak a teljes betöltés után jön le, a nyitóképet nem lassítja */
+  (function () { function ld() { var s = document.createElement('script'); s.src = 'js/hang.min.js?v=10'; document.body.appendChild(s); } if (document.readyState === 'complete') ld(); else addEventListener('load', ld); })();
   /* a ragadós lábléc a tartalom mögött ül: amíg messze van, rejtve marad (különben a böngésző ezt méri a fő tartalomnak) */
   (function () {
     var ft = document.getElementById('ft');
@@ -184,8 +186,8 @@
     var key = g.img, im = picCache[key];
     if (!im) {
       im = new Image(); im.decoding = 'async'; im.alt = '';
-      if (key === 'logo') { im.width = 180; im.height = 227; im.src = 'img/logo-ft.webp?v=9'; im.className = 'is-logo'; }
-      else { im.width = 800; im.height = 800; im.src = 'img/' + key + '-800.webp?v=9'; im.srcset = 'img/' + key + '-800.webp?v=9 800w, img/' + key + '-1400.webp?v=9 1400w'; im.sizes = '(min-width: 900px) 30vw, 100vw'; }
+      if (key === 'logo') { im.width = 180; im.height = 227; im.src = 'img/logo-ft.webp?v=10'; im.className = 'is-logo'; }
+      else { im.width = 800; im.height = 800; im.src = 'img/' + key + '-800.webp?v=10'; im.srcset = 'img/' + key + '-800.webp?v=10 800w, img/' + key + '-1400.webp?v=10 1400w'; im.sizes = '(min-width: 900px) 30vw, 100vw'; }
       picCache[key] = im; fr.appendChild(im);
     }
     $$('img', fr).forEach(function (x) { x.classList.remove('was'); if (x.classList.contains('is-on') && x !== im) { x.classList.remove('is-on'); x.classList.add('was'); } });
@@ -363,7 +365,7 @@
     }
     G.kick = function () { if (G.ok && G.vis && !G.run) { G.run = true; gsap.ticker.add(frame); } };
     function load() {
-      im.src = 'img/hero-' + (innerWidth > 1500 ? 2400 : 1400) + '.webp?v=9'; dep.src = 'img/hero-depth.webp?v=9';
+      im.src = 'img/hero-' + (innerWidth > 1500 ? 2400 : 1400) + '.webp?v=10'; dep.src = 'img/hero-depth.webp?v=10';
       var bm = function (x) { return window.createImageBitmap ? createImageBitmap(x).catch(function () { return x; }) : Promise.resolve(x); };
       Promise.all([im.decode(), dep.decode()]).then(function () { return Promise.all([bm(im), bm(dep)]); }).then(function (bms) {
         tex(0, bms[0]); tex(1, bms[1]);
@@ -484,9 +486,11 @@
     var n = d === 0 ? 10 : d, rot = 40 + 30 * (n - 1), w = $('#dialWheel');
     return new Promise(function (res) {
       if (reduced) { res(); return; }
-      var tl = gsap.timeline({ onComplete: res });
-      tl.to(w, { rotation: rot, svgOrigin: '0 0', duration: .14 + rot / 360 * .26, ease: 'power2.out' })
-        .to(w, { rotation: 0, svgOrigin: '0 0', duration: .12 + rot / 360 * .4, ease: 'sine.inOut' }, '+=.03');
+      var tl = gsap.timeline({ onComplete: res }), d1 = .14 + rot / 360 * .26, d2 = .12 + rot / 360 * .4, S = window.DLS;
+      if (S) S.dialOut(n, d1);
+      tl.to(w, { rotation: rot, svgOrigin: '0 0', duration: d1, ease: 'power2.out' })
+        .call(function () { if (S) S.dialBack(n, d2); }, null, '+=.03')
+        .to(w, { rotation: 0, svgOrigin: '0 0', duration: d2, ease: 'sine.inOut' });
     });
   }
   function press(d) {
@@ -500,6 +504,7 @@
   }
   function ringing() {
     var s = $('#dialNum');
+    if (window.DLS) window.DLS.ring();
     setTimeout(function () { s.textContent = L(['Kicseng…', 'Es klingelt…', 'Ringing…']); }, 500);
     setTimeout(function () { s.textContent = L(['Drágám, később hívlak…', 'Darling, ich ruf dich später an…', 'Darling, I’ll call you later…']); }, 2300);
     setTimeout(function () { dial.typed = ''; s.textContent = fmt(NUM); }, 5200);
@@ -604,7 +609,7 @@
   var deck = $('#deck');
   deck.innerHTML = CARDS.map(function (k, i) {
     var r = [-4, 3, -2, 5, -5, 2, -3, 4, -1, 3][i];
-    return '<figure class="card" style="--r:' + r + 'deg" data-n="' + ('0' + (i + 1)).slice(-2) + ' / ' + CARDS.length + '"><img src="img/' + k + '-600.webp?v=9" srcset="img/' + k + '-600.webp?v=9 600w, img/' + k + '-1100.webp?v=9 1100w" sizes="(min-width: 900px) 420px, 68vw" alt=""' + (i < 2 ? '' : ' loading="lazy"') + ' width="600" height="880"><i class="card__dim"></i></figure>';
+    return '<figure class="card" style="--r:' + r + 'deg" data-n="' + ('0' + (i + 1)).slice(-2) + ' / ' + CARDS.length + '"><img src="img/' + k + '-600.webp?v=10" srcset="img/' + k + '-600.webp?v=10 600w, img/' + k + '-1100.webp?v=10 1100w" sizes="(min-width: 900px) 420px, 68vw" alt=""' + (i < 2 ? '' : ' loading="lazy"') + ' width="600" height="880"><i class="card__dim"></i></figure>';
   }).join('');
 
   /* füst a koktélkártyák mögött; a mozgása csak akkor kerül be, ha tényleg kell (gépen GPU nélkül lassítaná a görgetést) */

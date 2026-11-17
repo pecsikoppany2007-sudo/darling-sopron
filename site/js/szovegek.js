@@ -1,7 +1,7 @@
 /* Darling: német és angol szövegek (a magyar a HTML-ben van) */
 window.DL_T = {
     de: {
-      skip: 'Zur Speisekarte', n1: 'Speisekarte', n2: 'Cocktails', n3: 'Wein, Bier, Kaffee', n4: 'Tisch reservieren', n5: 'Lieferung', n6: 'Öffnungszeiten', menu: 'Menü',
+      snd: 'Ton', skip: 'Zur Speisekarte', n1: 'Speisekarte', n2: 'Cocktails', n3: 'Wein, Bier, Kaffee', n4: 'Tisch reservieren', n5: 'Lieferung', n6: 'Öffnungszeiten', menu: 'Menü',
       h1: 'Darling, I’ll call you later…', hsub: 'Fusion Street Food und Bar · Sopron, Várkerület 57.', hgo1: 'Speisekarte', hgo2: 'Tisch reservieren',
       aboutH: 'Über uns',
       lede: 'Zwei Räume und eine Terrasse am Várkerület, in jedem Raum dreißig Plätze. Die Küche brät von halb eins bis halb zehn Burger und stellt Poke Bowls zusammen, die Bar hat freitags bis eins und samstags bis zwei Uhr geöffnet.',
@@ -19,7 +19,7 @@ window.DL_T = {
       ftBig: 'Darling, I’ll call you later…', ftOp: 'Betreiber', ftSeat: 'Sitz', ftLegal: 'Impressum und Datenschutz', ftPhotos: 'Fotos: eigene Bilder des Darling.', ftHost: 'Hosting: Netlify, Inc.'
     },
     en: {
-      skip: 'Skip to the menu', n1: 'Menu', n2: 'Cocktails', n3: 'Wine, beer, coffee', n4: 'Book a table', n5: 'Delivery', n6: 'Opening hours', menu: 'Menu',
+      snd: 'Sound', skip: 'Skip to the menu', n1: 'Menu', n2: 'Cocktails', n3: 'Wine, beer, coffee', n4: 'Book a table', n5: 'Delivery', n6: 'Opening hours', menu: 'Menu',
       h1: 'Darling, I’ll call you later…', hsub: 'Fusion street food and bar · Sopron, Várkerület 57.', hgo1: 'Menu', hgo2: 'Book a table',
       aboutH: 'About us',
       lede: 'Two rooms and a terrace on Várkerület, thirty seats in each room. The kitchen grills burgers and builds poke bowls from half past twelve to half past nine, and the bar stays open until one on Fridays and two on Saturdays.',
